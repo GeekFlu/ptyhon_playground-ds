@@ -34,11 +34,21 @@ def check_sudoku(matrix):
     for i in range(0, rows):
         generated = [x for x in range(1, cols + 1)]
         for j in range(0, cols):
-            if col in generated:
-                generated.remove(col)
+            if matrix[i][j] in generated:
+                generated.remove(matrix[i][j])
         if len(generated) != 0:
             isValid = False
             break
+
+    if isValid:
+        for i in range(0, rows):
+            generated = [x for x in range(1, cols + 1)]
+            for j in range(0, cols):
+                if matrix[j][i] in generated:
+                    generated.remove(matrix[j][i])
+            if len(generated) != 0:
+                isValid = False
+                break
 
     return isValid
 
