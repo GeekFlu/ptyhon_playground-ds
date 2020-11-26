@@ -3,6 +3,7 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files
 """
 import csv
+import time
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -60,7 +61,8 @@ def create_telephone_stats(telephone_dictionary, call_row, current_max):
             telephone_dictionary[year][month][telephone_key] = spent_time
             time_count = spent_time
         else:
-            telephone_dictionary[year][month][telephone_key] = telephone_dictionary.get(year).get(month).get(telephone_key) + spent_time
+            telephone_dictionary[year][month][telephone_key] = telephone_dictionary.get(year).get(month).get(
+                telephone_key) + spent_time
             time_count = telephone_dictionary.get(year).get(month).get(telephone_key) + spent_time
 
         if time_count > current_max:
@@ -85,6 +87,7 @@ months = {
     "12": "December"
 }
 
+start = time.time()
 directory_stats = {
     "max_time_spent": 0,
     "telephone": None,
@@ -104,10 +107,10 @@ for call_record in calls:
         directory_stats["year"] = c_year
         directory_stats["month"] = c_month
 
-
 n_year = directory_stats.get("year")
 n_month = directory_stats.get("month")
 n_telephone = directory_stats.get("telephone")
 
 print(
     f"{directory_stats.get('telephone')} spent the longest time, {directory_stats.get(n_year).get(n_month).get(n_telephone)} seconds, on the phone during {months.get(directory_stats.get('month'))} {directory_stats.get('year')}.")
+print(f"Exec time = {time.time() - start}")
