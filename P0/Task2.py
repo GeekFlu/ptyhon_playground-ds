@@ -32,18 +32,36 @@ def extract_date(date):
     return date[0:2], date[3:5], date[6:10]
 
 
-def update_telephone_dict(telephone_dictionary, telephone_key, spent_time):
-    if telephone_dictionary.get(month) is None:
-        telephone_dictionary[month] = {}
-        telephone_dictionary[month][telephone_key] = spent_time
-        time_count = spent_time
-    elif telephone_dictionary.get(month).get(telephone_key) is None:
-        telephone_dictionary[month][telephone_key] = spent_time
-        time_count = spent_time
-    else:
-        telephone_dictionary[month][telephone_key] = telephone_dictionary.get(month).get(telephone_key) + spent_time
-        time_count = telephone_dictionary.get(month).get(telephone_key) + spent_time
-    return time_count
+def update_telephone_dict(telephone_dictionary, call_row, current_max):
+    """
+    This method will create a dictionary per month of the seconds spent by telephone
+    :param current_max:
+    :param call_row: Row from call file
+    :param telephone_dictionary: Telephone dictionary
+    :return:
+    """
+    day, month, year = extract_date(call_row[2])
+    spent_time = int(call_row[3])
+    current_telephone = ""
+
+    for i in range(2):
+        telephone_key = call_row[i]
+        if telephone_dictionary.get(month) is None:
+            telephone_dictionary[month] = {}
+            telephone_dictionary[month][telephone_key] = spent_time
+            time_count = spent_time
+        elif telephone_dictionary.get(month).get(telephone_key) is None:
+            telephone_dictionary[month][telephone_key] = spent_time
+            time_count = spent_time
+        else:
+            telephone_dictionary[month][telephone_key] = telephone_dictionary.get(month).get(telephone_key) + spent_time
+            time_count = telephone_dictionary.get(month).get(telephone_key) + spent_time
+
+        if time_count > current_max:
+            current_max = time_count
+            current_telephone = telephone_key
+
+    return current_max, current_telephone, month
 
 
 months = {
@@ -67,19 +85,13 @@ telephone = ''
 m_month = ''
 
 for call_record in calls:
-    day, month, year = extract_date(call_record[2])
     # first as caller
-    max_spent_time = update_telephone_dict(directory_stats, call_record[0], int(call_record[3]))
-    if max_spent_time > max_seconds:
-        max_seconds = max_spent_time
-        telephone = call_record[0]
-        m_month = month
+    c_max, c_tel, c_month = update_telephone_dict(directory_stats, call_record, max_seconds)
+    if c_max > max_seconds:
+        max_seconds = c_max
+        telephone = c_tel
+        m_month = c_month
 
-    # then as a receiver
-    max_spent_time = update_telephone_dict(directory_stats, call_record[1], int(call_record[3]))
-    if max_spent_time > max_seconds:
-        max_seconds = max_spent_time
-        telephone = call_record[1]
-        m_month = month
 
-print(f"{telephone} spent the longest time, {directory_stats.get(m_month).get(telephone)} seconds, on the phone during September 2016.")
+print(
+    f"{telephone} spent the longest time, {directory_stats.get(m_month).get(telephone)} seconds, on the phone during September 2016.")
