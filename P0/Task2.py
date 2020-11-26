@@ -72,45 +72,46 @@ def create_telephone_stats(telephone_dictionary, call_row, current_max):
     return current_max, current_telephone, year, month
 
 
-months = {
-    "01": "January",
-    "02": "February",
-    "03": "March",
-    "04": "April",
-    "05": "May",
-    "06": "June",
-    "07": "July",
-    "08": "August",
-    "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December"
-}
+if __name__ == "__main__":
+    months = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    }
 
-start = time.time()
-directory_stats = {
-    "max_time_spent": 0,
-    "telephone": None,
-    "year": None,
-    "month": None
-}
-max_seconds = -1
-telephone = ''
-m_month = ''
+    start = time.time()
+    directory_stats = {
+        "max_time_spent": 0,
+        "telephone": None,
+        "year": None,
+        "month": None
+    }
+    max_seconds = -1
+    telephone = ''
+    m_month = ''
 
-for call_record in calls:
-    # first as caller
-    c_max, c_tel, c_year, c_month = create_telephone_stats(directory_stats, call_record, max_seconds)
-    if c_max > max_seconds:
-        max_seconds = c_max
-        directory_stats["telephone"] = c_tel
-        directory_stats["year"] = c_year
-        directory_stats["month"] = c_month
+    for call_record in calls:
+        # first as caller
+        c_max, c_tel, c_year, c_month = create_telephone_stats(directory_stats, call_record, max_seconds)
+        if c_max > max_seconds:
+            max_seconds = c_max
+            directory_stats["telephone"] = c_tel
+            directory_stats["year"] = c_year
+            directory_stats["month"] = c_month
 
-n_year = directory_stats.get("year")
-n_month = directory_stats.get("month")
-n_telephone = directory_stats.get("telephone")
+    n_year = directory_stats.get("year")
+    n_month = directory_stats.get("month")
+    n_telephone = directory_stats.get("telephone")
 
-print(
-    f"{directory_stats.get('telephone')} spent the longest time, {directory_stats.get(n_year).get(n_month).get(n_telephone)} seconds, on the phone during {months.get(directory_stats.get('month'))} {directory_stats.get('year')}.")
-print(f"Exec time = {time.time() - start}")
+    print(
+        f"{directory_stats.get('telephone')} spent the longest time, {directory_stats.get(n_year).get(n_month).get(n_telephone)} seconds, on the phone during {months.get(directory_stats.get('month'))} {directory_stats.get('year')}.")
+    print(f"Exec time = {time.time() - start}")
