@@ -40,6 +40,68 @@ were made to a number also starting with "(080)"?
 
 Print the answer as a part of a message::
 "<percentage> percent of calls from fixed lines in Bangalore are calls
-to other fixed lines in Bangalore."
+to other fixed lines in Ban   galore."
 The percentage should have 2 decimal digits
 """
+
+
+def is_mobile_number(telephone_number):
+    """
+    Function to determine if a number is a mobile number
+    :param telephone_number:
+    :return: None if it is not a mobile number otherwise the number
+    """
+    index_space = telephone_number.find(" ", 0)
+    if index_space > -1:
+        if telephone_number.find("7", 0, 1) > -1 or telephone_number.find("8", 0, 1) > -1 \
+                or telephone_number.find("9", 0, 1) > -1:
+            return telephone_number[0: 4]
+    return None
+
+
+def is_telemarketer_number(telephone_number):
+    """
+    Function to determine if a Telephone number is Telemarketer
+    :param telephone_number:
+    :return: Telemarketer Prefix
+    """
+    if telephone_number.find("140", 0, 3) > -1:
+        return "140"
+    return None
+
+
+def is_fixed_line_number(telephone_number):
+    """
+    Function to determine if a number is a fixed line
+    :param telephone_number:
+    :return: Code for the fixed line
+    """
+    open_p = telephone_number.find("(", 0, 1)
+    close_p = telephone_number.find(")", 0)
+    if open_p > -1 and close_p > -1:
+        return telephone_number[open_p: close_p + 1]
+    return None
+
+
+if __name__ == "__main__":
+    telephone_codes = set()
+    for call_record in calls:
+        caller = call_record[0]
+        receiver = call_record[1]
+        # Part A
+        if caller.find("(080)", 0) > -1:
+            mobile_number = is_mobile_number(receiver)
+            tkm_marketer = is_telemarketer_number(receiver)
+            fixed_line = is_fixed_line_number(receiver)
+            if mobile_number is not None:
+                telephone_codes.add(mobile_number)
+            elif tkm_marketer is not None:
+                telephone_codes.add(tkm_marketer)
+            elif fixed_line is not None:
+                telephone_codes.add(fixed_line)
+
+    lst_telephone_codes = list(telephone_codes)
+    lst_telephone_codes.sort()
+    print(f"The numbers called by people in Bangalore have codes: ")
+    for code in lst_telephone_codes:
+        print(code)
