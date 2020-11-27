@@ -40,7 +40,7 @@ were made to a number also starting with "(080)"?
 
 Print the answer as a part of a message::
 "<percentage> percent of calls from fixed lines in Bangalore are calls
-to other fixed lines in Ban   galore."
+to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
 
@@ -85,11 +85,14 @@ def is_fixed_line_number(telephone_number):
 
 if __name__ == "__main__":
     telephone_codes = set()
+    count_080_caller = 0
+    count_080_receiver = 0
     for call_record in calls:
         caller = call_record[0]
         receiver = call_record[1]
         # Part A
-        if caller.find("(080)", 0) > -1:
+        if caller.find("(080)", 0, 5) > -1:
+            count_080_caller += 1
             mobile_number = is_mobile_number(receiver)
             tkm_marketer = is_telemarketer_number(receiver)
             fixed_line = is_fixed_line_number(receiver)
@@ -98,6 +101,8 @@ if __name__ == "__main__":
             elif tkm_marketer is not None:
                 telephone_codes.add(tkm_marketer)
             elif fixed_line is not None:
+                if receiver.find("(080)", 0, 5) > -1:
+                    count_080_receiver += 1
                 telephone_codes.add(fixed_line)
 
     lst_telephone_codes = list(telephone_codes)
@@ -105,3 +110,7 @@ if __name__ == "__main__":
     print(f"The numbers called by people in Bangalore have codes: ")
     for code in lst_telephone_codes:
         print(code)
+
+    # Part B
+    percentage = (count_080_receiver / count_080_caller) * 100
+    print(f"{percentage:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")
