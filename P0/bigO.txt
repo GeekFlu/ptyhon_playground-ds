@@ -1,0 +1,291 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Task O - Time Complexity analysis
+
+The two messages that we need to print are using direct access to a 2d list as follows:
+
+lines
+1: print(f"First record of texts, {texts[0][0]} texts {texts[0][1]} at time {texts[0][2]}")
+2: print(f"Last record of calls, {calls[-1][0]} calls {calls[-1][1]} at time {calls[-1][2]}, lasting {calls[-1][3]} seconds")
+
+Since we know the indices and we know the time complexity to get a value from the list is constant O(1) we can say the next:
+
+first line:
+print()         --- O(1)
+texts[0][0]     --- O(1)
+texts[0][2]     --- O(1)
+
+second line:
+print()         --- O(1)
+calls[-1][0]    --- O(1)
+calls[-1][1]    --- O(1)
+calls[-1][3]    --- O(1)
+
+from first line we can say: O(1) + O(1) + O(1) = O(1 + 1 + 1) = O(3)
+from first line we can say: O(1) + O(1) + O(1) + O(1) = O(1 + 1 + 1 + 1) = O(4)
+
+combining two time Complexities we can say: O(3) + O(4) = O(7) = O(1)
+So the Big O fro Task 0 is CONSTANT TIME O(1)
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Task 1
+
+To get the list of telephone numbers we need to iterate through calls and texts and using sender and receiver number we create a
+set to store unique values.
+
+1: for telephone_text_record in texts:                      O(N)
+2:    sending_number = telephone_text_record[0]             O(1)
+3:    receiving_number = telephone_text_record[1]           O(1)
+4:    unique_telephone_numbers.add(sending_number)          O(1)
+5:    unique_telephone_numbers.add(receiving_number)        O(1)
+
+6: for telephone_call_record in calls:                      O(n)
+7:     sending_number = telephone_call_record[0]            O(1)
+8:     receiving_number = telephone_call_record[1]          O(1)
+9:     unique_telephone_numbers.add(sending_number)         O(1)
+10:    unique_telephone_numbers.add(receiving_number)       O(1)
+
+11: print(f"There are {len(unique_telephone_numbers)} different telephone numbers in the records.")
+    print() O(1)
+    len() function in Python runs in O(1) complexity
+
+We can say:
+from lines 1 through 5:  O((1 + 1 + 1 + 1)n) = O(4n) which is O(n)
+from lines 6 through 10: O((1 + 1 + 1 + 1)n) = O(4n) which is O(n)
+from line 11:            O(1 + 1) = O(2) = O(1)
+
+Finally
+O(n) + O(n) + O(1) = O(n + n + 1) = O(2n + 1) = O(n)
+We can say that the time complexity for this task is LINEAR or big O(n)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Task 2
+To determine which telephone number spent the longest time on the phone, I have decided to create a dictionary with the next
+structure
+{
+    yearXX:{
+        month1:{
+            tel1: xx spent time,
+            tel2: xs spent time
+        },
+        month2:{
+            tel1: xx spent time,
+            tel2: xs spent time
+        }
+    },
+    yearXX:{
+        month1:{
+            tel1: xx spent time,
+            tel2: xs spent time
+        },
+        month2:{
+            tel1: xx spent time,
+            tel2: xs spent time
+        }
+    }
+    "telephone": None,
+    "year": None,
+    "month": None
+}
+
+In the end the keys telephone, year and month will give us the expected result.
+
+1: def extract_date(date):
+2:    return date[0:2], date[3:5], date[6:10]
+
+for this function we have slicing operations and the time for this is  	O(y-x)
+    date[0:2]  = O(2 - 0)  = O(2)
+    date[3:5]  = O(5 - 3)  = O(2)
+    date[6:10] = O(10 - 6) = O(4)
+
+    so we can say
+    O(2) + O(2) + O(4) = O(2 + 2 + 4) = O(6) = O(1)
+    for extract_date function the time complexity is CONSTANT
+
+1: def create_telephone_stats(telephone_dictionary, call_row, current_max):
+2:    day, month, year = extract_date(call_row[2])                                        O(1)
+3:    spent_time = int(call_row[3])                                                       O(1)
+4:    current_telephone = ""                                                              O(1)
+5:    for i in range(2):                                                                  O(2)
+6:        telephone_key = call_row[i]                                                     O(1)
+        # For every year in the file a root will be created
+7:        if telephone_dictionary.get(year) is None:                                      O(1)
+8:            telephone_dictionary[year] = {}                                             O(1)
+9:            telephone_dictionary[year][month] = {}                                      O(1)
+10:           telephone_dictionary[year][month][telephone_key] = spent_time               O(1)
+11:           time_count = spent_time                                                     O(1)
+12:       elif telephone_dictionary.get(year).get(month) is None:                         O(1)
+13:           telephone_dictionary[year][month] = {}                                      O(1)
+14:           telephone_dictionary[year][month][telephone_key] = spent_time               O(1)
+15:           time_count = spent_time                                                     O(1)
+16:       elif telephone_dictionary.get(year).get(month).get(telephone_key) is None:      O(1)
+17:           telephone_dictionary[year][month][telephone_key] = spent_time               O(1)
+18:           time_count = spent_time                                                     O(1)
+19:       else:
+20:            telephone_dictionary[year][month][telephone_key] = telephone_dictionary.get(year).get(month).get(
+                telephone_key) + spent_time                                               O(1)
+21:            time_count = telephone_dictionary.get(year).get(month).get(telephone_key) + spent_time
+                                                                                          O(1)
+
+22:     if time_count > current_max:                                                    O(1)
+23:         current_max = time_count                                                    O(1)
+24:         current_telephone = telephone_key                                           O(1)
+
+25: return current_max, current_telephone, year, month                                  O(1)
+
+we can say that for the function create_telephone_stats we can determine the next Big O equation:
+O(1) + O(1) + O(1) + O(2 *(15 * O(1)) + O(1) + O(1) + O(1) + O(1) = O(3) + O(30) + O(4) = O(37) = O(1)
+We can say that for the function create_telephone_stats its time complexity is CONSTANT Big O(1)
+
+The main program:
+1:    for call_record in calls:                                                                             O(n)
+        # first as caller
+2:        c_max, c_tel, c_year, c_month = create_telephone_stats(directory_stats, call_record, max_seconds) O(1)
+3:        if c_max > max_seconds:                                                                           O(1)
+4:            max_seconds = c_max                                                                           O(1)
+5:            directory_stats["telephone"] = c_tel                                                          O(1)
+6:            directory_stats["year"] = c_year                                                              O(1)
+7:            directory_stats["month"] = c_month                                                            O(1)
+
+8: print(f"{directory_stats.get('telephone')} spent the longest time, {directory_stats.get(n_year).get(n_month).get(n_telephone)} seconds, on the phone during {months.get(directory_stats.get('month'))} {directory_stats.get('year')}.")
+    directory_stats.get('telephone')                            O(1)
+    directory_stats.get(n_year).get(n_month).get(n_telephone)   O(1)
+    months.get(directory_stats.get('month')                     O(1)
+    directory_stats.get('year')                                 O(1)
+
+main program time complexity is: O((1 + 1 + 1 + 1 + 1 + 1)n) +  O(4) = O(6n) + O(4) = O(n)
+The time complexity for task 2 is LINEAR Big O(n)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Task 3
+
+The built in function find has the next time complexity:
+    O((n-m)*m) where n is the size of the string in which you search, and m is the size of the string which you search,
+    based on this we can assume the max length for a telephone is 20 characters.
+
+1: def is_mobile_number(telephone_number):
+2:    index_space = telephone_number.find(" ", 0)                       O((20 - 1) * 1) = O(19)
+3:    if index_space > -1:                                              O(1)
+4:        if telephone_number.find("7", 0, 1) > -1 or telephone_number.find("8", 0, 1) > -1 \
+                or telephone_number.find("9", 0, 1) > -1:
+
+                time complexity for telephone_number.find("7", 0, 1)    O((20 - 1) * 1) = O(19)
+                time complexity for telephone_number.find("8", 0, 1)    O((20 - 1) * 1) = O(19)
+                time complexity for telephone_number.find("9", 0, 1)    O((20 - 1) * 1) = O(19)
+
+
+5:            return telephone_number[0: 4]                             O(4-0) = O(4)
+6:    return None
+
+For function is_mobile_number we can determine its time complexity:
+    O(19) + O(1) + O(3 * 19) + O(4) = O(19 + 1 + 57 + 4) = O(81) = O(1)
+
+
+
+1: def is_telemarketer_number(telephone_number):
+2:    if telephone_number.find("140", 0, 3) > -1:   O((20 - 3) * 3) = O(51)
+3:        return "140"
+4:    return None
+
+For function is_telemarketer_number we can determine its time complexity:
+    O(51) = O(1)
+
+1: def is_fixed_line_number(telephone_number):
+2:     open_p = telephone_number.find("(", 0, 1)                               O((20 - 1) * 1) = O(19)
+3:     close_p = telephone_number.find(")", 0)                                 O((20 - 1) * 1) = O(19)
+4:     if open_p > -1 and close_p > -1:                                        O(2)
+5:         return telephone_number[open_p: close_p + 1]                        O(y - x) = O(1)
+6:     return None
+
+For function is_fixed_line_number we can determine its time complexity:
+    O(19 + 19 + 2 + 1) = O(41) = O(1)
+
+the main program looks like:
+1:    telephone_codes = set()                                                 O(1)
+2:    count_080_caller = 0                                                    O(1)
+3:    count_080_receiver = 0                                                  O(1)
+4:    for call_record in calls:                                               O(n)
+5:        caller = call_record[0]                                             O(1)
+6:        receiver = call_record[1]                                           O(1)
+7:        # Part A
+8:        if caller.find("(080)", 0, 5) > -1:                                 O((20 - 5) * 5) + 1) = O(76)
+9:            count_080_caller += 1                                           O(2)
+10:           mobile_number = is_mobile_number(receiver)                      O(1)
+11:           tkm_marketer = is_telemarketer_number(receiver)                 O(1)
+12:           fixed_line = is_fixed_line_number(receiver)                     O(1)
+13:           if mobile_number is not None:                                   O(1)
+14:               telephone_codes.add(mobile_number)                          Average O(1) Wost Case O(m)
+15:           elif tkm_marketer is not None:                                  O(1)
+16:               telephone_codes.add(tkm_marketer)                           Average O(1) Wost Case O(m)
+17:           elif fixed_line is not None:                                    O(1)
+18:               if receiver.find("(080)", 0, 5) > -1:                       O((20 - 5) * 5) + 1) = O(76)
+19:                   count_080_receiver += 1                                 O(1)
+20:               telephone_codes.add(fixed_line)                             Average O(1) Wost Case O(m)
+
+21:   lst_telephone_codes = list(telephone_codes)                             O(1)
+22:   lst_telephone_codes.sort()                                              O(n * log(n))
+23:   print(f"The numbers called by people in Bangalore have codes: ")        O(1)
+24:   for code in lst_telephone_codes:                                        O(n)
+25:       print(code)                                                         O(1)
+
+    # Part B
+26:   percentage = (count_080_receiver / count_080_caller) * 100              O(1)
+27:   print(f"{percentage:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.") O(1)
+
+For the main program we can determine the next:
+
+    O(1) + O(1) + O(1) + O( (1 + 1 + 76 + 2 + 1 + 1 + 1 + 1) * n)
+    on line 14: we have two scenarios average case and worst case, we are going to use worst case
+    O(1) + O(1) + O(1) + O( (1 + 1 + 76 + 2 + 1 + 1 + 1 + 1 + m + 1 + m + 1 + 76 + 1 + m) * n) + O(1) + O(n * log(n)) + O(1) + O(n) + O(1) + O(1)
+    O(3) + O((163 + 2m) * n) + O(4) + O(n * log(n)) + O(n)
+    since we are taking only worst case scenario we can reduce to:
+    O(7) + O(163n) + O(2mn) + O(n * log(n)) + O(n)
+    O(n * log(n)) + O(mn) + O(164n) + O(7)
+    O(n * log(n)) + O(mn) + O(n) + O(1)
+    We can eliminate lower level complexities in this case:
+    O(1), O(n), O(mn)
+    So the time complexity for this program is O(n * log(n))
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Task 4
+
+:1     call_receivers = set()                   O(1)
+:2     text_senders = set()                     O(1)
+:3     text_receivers = set()                   O(1)
+:4     tkm_set = set()                          O(1)
+:5     for call_record in calls:                O(n)
+:6         call_receivers.add(call_record[1])   O(m)
+
+:7     for text_record in texts:                O(n)
+:8         text_senders.add(text_record[0])     O(m)
+:9         text_receivers.add(text_record[1])   O(m)
+
+:10   for call_record in calls:                 O(n)
+:11       sender = call_record[0]               O(1)
+:12       if sender in call_receivers:          O(n)
+:13           continue                          O(1)
+:14       if sender in text_senders:            O(n)
+:15           continue                          O(1)
+:16       if sender in text_receivers:          O(n)
+:17           continue                          O(1)
+:18       tkm_set.add(sender)                   O(m)
+:19   tkm_list = list(tkm_set)                  O(n)
+:20   tkm_list.sort()                           O(n * log(n))
+:21   print(f"These numbers could be telemarketers: ")  O(1)
+:22   for telemarketer in tkm_list:             O(n)
+:23       print(telemarketer)                   O(1)
+
+We can say:
+O(4) + O(mn) + O((m + m)n) + O((1 + n + 1 + n + 1 + n + 1 + m)n) + O(n) + O(n * log(n)) + O(1) + O(n) + O(1)
+we reduce:
+O(7) + O(mn) + O(2mn) + O((4 + 3n + m)n) + O(n) + O(n * Log(n)) + O(n)
+O(7) + O(3mn) + O(4n + 3nn + mn) + O(n) + O(n * log(n)) + O(n)
+O(7) + O(3mn) + O(4n) + O(3nn) + O(mn)  + O(n) + O(n * log(n)) + O(n)
+O(7) + O(4mn) + O(6n) + O(3nn) + O(n * log(n))
+O(nn) + O(n * log(n)) + O(mn) + O(n) + O(1)
+
+we can discard lower complexities:
+O(n * log(n)), O(mn), O(n), O(1)
+
+The Complexity for this program is Big O Squared O(nn)

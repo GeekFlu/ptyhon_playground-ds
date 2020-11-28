@@ -112,6 +112,5 @@ if __name__ == "__main__":
         print(code)
 
     # Part B
-    print("\nPart B")
     percentage = (count_080_receiver / count_080_caller) * 100
     print(f"{percentage:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.")

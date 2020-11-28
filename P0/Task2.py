@@ -3,7 +3,7 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files
 """
 import csv
-import time
+# import time
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -88,9 +88,8 @@ if __name__ == "__main__":
         "12": "December"
     }
 
-    start = time.time()
+    # start = time.time()
     directory_stats = {
-        "max_time_spent": 0,
         "telephone": None,
         "year": None,
         "month": None
@@ -114,4 +113,4 @@ if __name__ == "__main__":
 
     print(
         f"{directory_stats.get('telephone')} spent the longest time, {directory_stats.get(n_year).get(n_month).get(n_telephone)} seconds, on the phone during {months.get(directory_stats.get('month'))} {directory_stats.get('year')}.")
-    print(f"Exec time = {time.time() - start}")
+    # print(f"Exec time = {time.time() - start}")

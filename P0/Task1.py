@@ -21,14 +21,14 @@ Print a message:
 unique_telephone_numbers = set()
 
 for telephone_text_record in texts:
-    sending_number = telephone_text_record[0].strip()
-    receiving_number = telephone_text_record[1].strip()
+    sending_number = telephone_text_record[0]
+    receiving_number = telephone_text_record[1]
     unique_telephone_numbers.add(sending_number)
     unique_telephone_numbers.add(receiving_number)
 
 for telephone_call_record in calls:
-    sending_number = telephone_call_record[0].strip()
-    receiving_number = telephone_call_record[1].strip()
+    sending_number = telephone_call_record[0]
+    receiving_number = telephone_call_record[1]
     unique_telephone_numbers.add(sending_number)
     unique_telephone_numbers.add(receiving_number)
 
