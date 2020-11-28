@@ -1,3 +1,14 @@
+For this analysis these are all the content I reviewed:
+
+https://www.geeksforgeeks.org/complexity-cheat-sheet-for-python-operations/
+https://www.geeksforgeeks.org/internal-working-of-the-len-function-in-python/
+https://www.geeksforgeeks.org/analysis-algorithm-set-5-amortized-analysis-introduction/
+https://www.ics.uci.edu/~brgallar/week8_2.html
+https://www.ics.uci.edu/~pattis/ICS-33/lectures/complexitypython.txt
+https://wiki.python.org/moin/TimeComplexity
+https://en.wikipedia.org/wiki/Big_O_notation
+https://docs.python.org/3/howto/sorting.html
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 Task O - Time Complexity analysis
 
