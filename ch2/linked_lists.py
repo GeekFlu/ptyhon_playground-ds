@@ -143,7 +143,15 @@ class LinkedList:
 
     def size(self):
         """ Return the size or length of the linked list. """
-        pass
+        size = 0
+        if self.head is None:
+            return size
+        cur = self.head
+        while cur is not None:
+            size += 1
+            cur = cur.next
+        return size
+
 
 
 if __name__ == "__main__":
@@ -184,6 +192,8 @@ if __name__ == "__main__":
     assert linked_list_remove.to_list() == [2, 1, 4, 3], f"list contents: {linked_list_remove.to_list()}"
     linked_list_remove.remove(3)
     assert linked_list_remove.to_list() == [2, 1, 4], f"list contents: {linked_list_remove.to_list()}"
+
+    assert linked_list_remove.size() == 3, f"list contents: {linked_list_remove.to_list()}"
 
     print(f"value = {linked_list.pop()}")
     print(f"{linked_list.to_list()}")
