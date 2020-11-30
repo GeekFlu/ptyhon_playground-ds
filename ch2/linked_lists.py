@@ -114,8 +114,36 @@ class LinkedList:
         self.head = n.next
         return n.value
 
+    def insert(self, value, pos):
+        """ Insert value at pos position in the list. If pos is larger than the
+        length of the list, append to the end of the list. """
+        cur_pos = 0
+        if self.head is None:
+            self.append(value)
+        else:
+            cur = self.head
+            prev = None
+            nn = Node(value)
+            while cur is not None:
+                if pos == 0:
+                    nn.next = self.head
+                    self.head = nn
+                    return True
+                elif cur_pos == pos:
+                    prev.next = nn
+                    nn.next = cur
+                    return True
+                else:
+                    prev = cur
+                    cur = cur.next
+                cur_pos += 1
+            # we are in the end of the linked list we insert it
+            prev.next = nn
+        return True
 
-
+    def size(self):
+        """ Return the size or length of the linked list. """
+        pass
 
 
 if __name__ == "__main__":
@@ -141,11 +169,36 @@ if __name__ == "__main__":
     assert linked_list.search(1).value == 1, f"list contents: {linked_list.to_list()}"
     assert linked_list.search(4).value == 4, f"list contents: {linked_list.to_list()}"
 
-    linked_list.remove(1)
-    print(f"{linked_list.to_list()}")
-    assert linked_list.to_list() == [2, 4, 3], f"list contents: {linked_list.to_list()}"
+    linked_list_remove = LinkedList()
+    linked_list_remove.append(1)
+    linked_list_remove.append(3)
+    linked_list_remove.prepend(2)
+    linked_list_remove.prepend(1)
+    linked_list_remove.append(4)
+    linked_list_remove.append(3)
+
+    # Test remove
+    linked_list_remove.remove(1)
+    assert linked_list_remove.to_list() == [2, 1, 3, 4, 3], f"list contents: {linked_list_remove.to_list()}"
+    linked_list_remove.remove(3)
+    assert linked_list_remove.to_list() == [2, 1, 4, 3], f"list contents: {linked_list_remove.to_list()}"
+    linked_list_remove.remove(3)
+    assert linked_list_remove.to_list() == [2, 1, 4], f"list contents: {linked_list_remove.to_list()}"
 
     print(f"value = {linked_list.pop()}")
     print(f"{linked_list.to_list()}")
     print(f"value = {linked_list.pop()}")
     print(f"{linked_list.to_list()}")
+
+    ll = LinkedList()
+    ll.prepend(1)
+    ll.append(3)
+    print(f"Before Insert Linked List = {ll.to_list()}")
+    ll.insert(2, 1)
+    print(f"After  Insert Linked List = {ll.to_list()}")
+    ll.insert(-1, 0)
+    print(f"After  Insert Linked List = {ll.to_list()}")
+    ll.insert(100, 6)
+    print(f"After  Insert Linked List = {ll.to_list()}")
+
+
