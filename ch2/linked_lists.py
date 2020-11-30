@@ -45,6 +45,33 @@ class Node:
         self.next = None
 
 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, value):
+        if self.head is None:
+            self.head = Node(value)
+            return
+
+        # Move to the tail (the last node)
+        node_ = self.head
+        while node_.next:
+            node_ = node_.next
+
+        node_.next = Node(value)
+        return
+
+    def to_list(self):
+        lst = list()
+        cur = self.head
+        while cur is not None:
+            lst.append(cur.value)
+            cur = cur.next
+        return lst
+
+
+
 
 if __name__ == "__main__":
     head = Node(2)
@@ -60,3 +87,13 @@ if __name__ == "__main__":
     input_list = [1, 2, 3, 4, 5, 6, 8, 9, 20, 11]
     head = create_linked_list_better(input_list)
     print_link_list(head)
+
+    print("__________________________________________________________________________________")
+    # Test your method here
+    linked_list = LinkedList()
+    linked_list.append(3)
+    linked_list.append(2)
+    linked_list.append(-1)
+    linked_list.append(0.2)
+
+    print("Pass" if (linked_list.to_list() == [3, 2, -1, 0.2]) else "Fail")
