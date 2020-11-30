@@ -19,14 +19,14 @@ def print_link_list(head_):
         current_node = current_node.next
 
 
-def create_linked_list(input_list):
+def create_linked_list(input_list_):
     """
     Function to create a linked list
-    @param input_list: a list of integers
+    @param input_list_: a list of integers
     @return: head node of the linked list
     """
     head_ = None
-    for value in input_list:
+    for value in input_list_:
         if head_ is None:
             head_ = Node(value)
         else:
@@ -57,6 +57,6 @@ if __name__ == "__main__":
     print_link_list(head)
 
     print("__________________________________________________________________________________")
-    input_list = [1, 2, 3, 4, 5, 6, 8, 9, 20, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 20, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 20, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 20, 11, 12, 1, 2, 3, 4, 5, 6, 8, 9, 20, 11, 12]
+    input_list = [1, 2, 3, 4, 5, 6, 8, 9, 20, 11]
     head = create_linked_list_better(input_list)
     print_link_list(head)
