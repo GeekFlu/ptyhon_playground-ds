@@ -30,6 +30,21 @@ def create_linked_list(input_list_):
     return head_
 
 
+def is_circular(l_list):
+    if l_list.head is None:
+        return False
+
+    slow = l_list.head
+    fast = l_list.head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            # we found a cicle
+            return True
+    return False
+
+
 class Node:
 
     def __init__(self, value):
@@ -239,3 +254,29 @@ if __name__ == "__main__":
     print(f"reverse = {ll.to_list()}")
     ll.reverse()
     print(f"reverse = {ll.to_list()}")
+
+    print("__________________________________________________________________________________")
+    list_with_loop = LinkedList([2, -1, 3, 0, 5])
+    print(f"list_with_loop = {list_with_loop.to_list()}")
+    # Creating a loop where the last node points back to the second node
+    loop_start = list_with_loop.head.next
+
+    node = list_with_loop.head
+    # reach the end node an assign next to the second node of the list
+    while node.next:
+        node = node.next
+    node.next = loop_start
+
+    print(is_circular(list_with_loop))
+
+    # Test Cases
+
+    # Create another circular linked list
+    small_loop = LinkedList([0])
+    small_loop.head.next = small_loop.head
+
+    print("Pass" if is_circular(list_with_loop) else "Fail")  # Pass
+    print("Pass" if is_circular(LinkedList([-4, 7, 2, 5, -1])) else "Fail")  # Fail
+    print("Pass" if is_circular(LinkedList([1])) else "Fail")  # Fail
+    print("Pass" if is_circular(small_loop) else "Fail")  # Pass
+    print("Pass" if is_circular(LinkedList([])) else "Fail")  # Fail
