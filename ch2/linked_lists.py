@@ -38,8 +38,11 @@ class Node:
 
 
 class LinkedList:
-    def __init__(self):
+    def __init__(self, init_list=None):
         self.head = None
+        if init_list:
+            for value in init_list:
+                self.append(value)
 
     def append(self, value):
         if self.head is None:
@@ -173,8 +176,6 @@ class LinkedList:
             prev = current
             current = next_
         self.head = prev
-
-
 
 
 if __name__ == "__main__":
