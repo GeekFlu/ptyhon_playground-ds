@@ -108,6 +108,11 @@ class LinkedList:
 
     def pop(self):
         """ Return the first node's value and remove it from the list. """
+        if self.head is None:
+            return None
+        n = self.head
+        self.head = n.next
+        return n.value
 
 
 
@@ -139,3 +144,8 @@ if __name__ == "__main__":
     linked_list.remove(1)
     print(f"{linked_list.to_list()}")
     assert linked_list.to_list() == [2, 4, 3], f"list contents: {linked_list.to_list()}"
+
+    print(f"value = {linked_list.pop()}")
+    print(f"{linked_list.to_list()}")
+    print(f"value = {linked_list.pop()}")
+    print(f"{linked_list.to_list()}")
