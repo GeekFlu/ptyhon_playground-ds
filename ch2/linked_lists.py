@@ -83,6 +83,34 @@ class LinkedList:
         """ Search the linked list for a node with the requested value and return the node. """
         if self.head is None:
             return None
+        cur = self.head
+        while cur.next is not None:
+            if cur.value == value:
+                return cur
+            cur = cur.next
+
+    def remove(self, value):
+        """ Remove first occurrence of value. """
+        if self.head is None:
+            return None
+        cur = self.head
+        prev = None
+        while cur is not None:
+            if cur.value == value:
+                if prev is not None:
+                    prev.next = cur.next
+                else:
+                    self.head = cur.next
+                return True
+            prev = cur
+            cur = cur.next
+        return False
+
+    def pop(self):
+        """ Return the first node's value and remove it from the list. """
+
+
+
 
 
 if __name__ == "__main__":
@@ -98,3 +126,16 @@ if __name__ == "__main__":
     assert linked_list.to_list() == [1], f"list contents: {linked_list.to_list()}"
     linked_list.append(3)
     assert linked_list.to_list() == [1, 3], f"list contents: {linked_list.to_list()}"
+
+    # Test search
+    linked_list = LinkedList()
+    linked_list.prepend(2)
+    linked_list.prepend(1)
+    linked_list.append(4)
+    linked_list.append(3)
+    assert linked_list.search(1).value == 1, f"list contents: {linked_list.to_list()}"
+    assert linked_list.search(4).value == 4, f"list contents: {linked_list.to_list()}"
+
+    linked_list.remove(1)
+    print(f"{linked_list.to_list()}")
+    assert linked_list.to_list() == [2, 4, 3], f"list contents: {linked_list.to_list()}"
