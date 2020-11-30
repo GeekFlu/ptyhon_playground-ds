@@ -152,6 +152,29 @@ class LinkedList:
             cur = cur.next
         return size
 
+    def __iter__(self):
+        node = self.head
+        while node:
+            yield node.value
+            node = node.next
+
+    def __repr__(self):
+        return str([v for v in self])
+
+    def reverse(self):
+        """
+        Reverse the inputted linked list
+        """
+        prev = None
+        current = self.head
+        while current is not None:
+            next_ = current.next
+            current.next = prev
+            prev = current
+            current = next_
+        self.head = prev
+
+
 
 
 if __name__ == "__main__":
@@ -210,5 +233,8 @@ if __name__ == "__main__":
     print(f"After  Insert Linked List = {ll.to_list()}")
     ll.insert(100, 6)
     print(f"After  Insert Linked List = {ll.to_list()}")
-
-
+    print(f"Before reverse = {ll.to_list()}")
+    ll.reverse()
+    print(f"reverse = {ll.to_list()}")
+    ll.reverse()
+    print(f"reverse = {ll.to_list()}")
