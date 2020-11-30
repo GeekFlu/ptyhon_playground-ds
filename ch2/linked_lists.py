@@ -40,7 +40,7 @@ def is_circular(l_list):
         slow = slow.next
         fast = fast.next.next
         if slow == fast:
-            # we found a cicle
+            # we found a cycle
             return True
     return False
 
