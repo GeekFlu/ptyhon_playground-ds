@@ -11,14 +11,6 @@ def create_linked_list_better(input_list_):
     return head_
 
 
-def print_link_list(head_):
-    current_node = head_
-
-    while current_node is not None:
-        print(current_node.value)
-        current_node = current_node.next
-
-
 def create_linked_list(input_list_):
     """
     Function to create a linked list
@@ -70,30 +62,39 @@ class LinkedList:
             cur = cur.next
         return lst
 
+    # Define a function outside of the class
+    def prepend(self, value):
+        """ Prepend a value to the beginning of the list. """
+        n = Node(value)
+        if self.head is None:
+            self.head = n
+            return
 
+        n.next = self.head
+        self.head = n
+
+    def print_link_list(self):
+        current_node = self.head
+        while current_node is not None:
+            print(current_node.value)
+            current_node = current_node.next
+
+    def search(self, value):
+        """ Search the linked list for a node with the requested value and return the node. """
+        if self.head is None:
+            return None
 
 
 if __name__ == "__main__":
-    head = Node(2)
-    head.next = Node(1)
-    print_link_list(head)
-
     print("__________________________________________________________________________________")
-    input_list = [1, 2, 3, 4, 5, 6]
-    head = create_linked_list(input_list)
-    print_link_list(head)
+    ll = LinkedList()
+    ll.prepend(-1)
+    ll.print_link_list()
+    print(f"{ll.to_list()}")
 
-    print("__________________________________________________________________________________")
-    input_list = [1, 2, 3, 4, 5, 6, 8, 9, 20, 11]
-    head = create_linked_list_better(input_list)
-    print_link_list(head)
-
-    print("__________________________________________________________________________________")
-    # Test your method here
+    # Test append - 2
     linked_list = LinkedList()
+    linked_list.append(1)
+    assert linked_list.to_list() == [1], f"list contents: {linked_list.to_list()}"
     linked_list.append(3)
-    linked_list.append(2)
-    linked_list.append(-1)
-    linked_list.append(0.2)
-
-    print("Pass" if (linked_list.to_list() == [3, 2, -1, 0.2]) else "Fail")
+    assert linked_list.to_list() == [1, 3], f"list contents: {linked_list.to_list()}"
