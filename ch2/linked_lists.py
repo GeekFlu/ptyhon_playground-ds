@@ -1,4 +1,39 @@
+import time
+from ch2.generate_numbers import generate_test_data
+
+
 def merge(list1, list2):
+    """
+    The arguments list1, list2 must be of type LinkedList.
+    The merge() function must return an instance of LinkedList.
+    """
+    if list1 is None:
+        return list2
+    if list2 is None:
+        return list1
+
+    temp = Node('temp')
+    cur = temp
+    l1 = list1.head
+    l2 = list2.head
+    while l1 is not None and l2 is not None:
+        if l1.value <= l2.value:
+            cur.next = l1
+            cur = l1
+            l1 = l1.next
+        else:
+            cur.next = l2
+            cur = l2
+            l2 = l2.next
+
+    if l1 is None:
+        cur.next = l2
+    if l2 is None:
+        cur.next = l1
+
+    return temp.next
+
+def merge_keep_original_lists(list1, list2):
     """
     The arguments list1, list2 must be of type LinkedList.
     The merge() function must return an instance of LinkedList.
@@ -32,7 +67,6 @@ def merge(list1, list2):
     temp.head = temp.head.next
 
     return temp
-
 
 def create_linked_list_better(input_list_):
     head_ = None
@@ -212,9 +246,6 @@ class LinkedList:
             yield node.value
             node = node.next
 
-    def __repr__(self):
-        return str([v for v in self])
-
     def reverse(self):
         """
         Reverse the inputted linked list
@@ -317,13 +348,31 @@ if __name__ == "__main__":
     print("Pass" if is_circular(small_loop) else "Fail")  # Pass
     print("Pass" if is_circular(LinkedList([])) else "Fail")  # Fail
 
+    start = time.time()
     list1 = LinkedList([1, 3, 4])
     list2 = LinkedList([2, 5, 6, 7])
-    ll_merged = merge(list1, list2)
+    ll_merged = merge_keep_original_lists(list1, list2)
     print(f"{ll_merged.to_list()}")
-    ll_merged = merge(LinkedList([-1, 6, 7]), LinkedList([1, 2, 3, 4]))
+    ll_merged = merge_keep_original_lists(LinkedList([-1, 6, 7]), LinkedList([1, 2, 3, 4]))
     print(f"{ll_merged.to_list()}")
-    ll_merged = merge(None, LinkedList([1, 2, 3, 4]))
+    ll_merged = merge_keep_original_lists(None, LinkedList([1, 2, 3, 4]))
     print(f"{ll_merged.to_list()}")
-    ll_merged = merge(LinkedList([-1, 6, 7]), None)
+    ll_merged = merge_keep_original_lists(LinkedList([-1, 6, 7]), None)
     print(f"{ll_merged.to_list()}")
+    print(f"execution time = {time.time() - start}")
+
+    # long_ll1 = LinkedList(generate_test_data(1000))
+    # long_ll2 = LinkedList(generate_test_data(2670))
+    # start = time.time()
+    # merged_l = merge_keep_original_lists(long_ll1, long_ll2)
+    # print(f"Merging big lists execution time = {time.time() - start}")
+    # print(f"ehst {merged_l.to_list()[:100]}")
+
+    long_ll1 = LinkedList(generate_test_data(200000))
+    long_ll2 = LinkedList(generate_test_data(267000))
+    start = time.time()
+    merged_node = merge(long_ll1, long_ll2)
+    n_merged = LinkedList()
+    n_merged.head = merged_node
+    print(f"Merging big lists execution time = {time.time() - start}")
+    print(f"ehst {n_merged.pop()}")
