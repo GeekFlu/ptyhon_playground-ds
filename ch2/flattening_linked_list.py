@@ -1,5 +1,25 @@
 # Helper code
 
+def merge(list1, list2):
+    """
+    The arguments list1, list2 must be of type LinkedList.
+    The merge() function must return an instance of LinkedList.
+    """
+    temp = Node(-99)
+    cur = temp
+    l1 = list1.head
+    l2 = list2.head
+    while l1 is not None and l2 is not None:
+        if l1.value <= l2.value:
+            cur.next = l1
+            cur = l1
+            l1 = l1.next
+        else:
+            cur.next = l2
+            cur = l2
+            l2 = l2.next
+
+
 # A class behaves like a data-type, just like an int, float or any other built-in ones.
 # User defined class
 class Node:

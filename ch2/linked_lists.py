@@ -1,3 +1,30 @@
+def merge(list1, list2):
+    """
+    The arguments list1, list2 must be of type LinkedList.
+    The merge() function must return an instance of LinkedList.
+    """
+    temp = Node(-99)
+    cur = temp
+    l1 = list1.head
+    l2 = list2.head
+    while l1 is not None and l2 is not None:
+        if l1.value <= l2.value:
+            cur.next = l1
+            cur = l1
+            l1 = l1.next
+        else:
+            cur.next = l2
+            cur = l2
+            l2 = l2.next
+
+    if l1 is None:
+        cur.next = l2
+    if l2 is None:
+        cur.next = l1
+
+    return LinkedList(None, temp.next)
+
+
 def create_linked_list_better(input_list_):
     head_ = None
     tail_ = None
@@ -53,8 +80,8 @@ class Node:
 
 
 class LinkedList:
-    def __init__(self, init_list=None):
-        self.head = None
+    def __init__(self, init_list=None, head=None):
+        self.head = head
         if init_list:
             for value in init_list:
                 self.append(value)
@@ -280,3 +307,8 @@ if __name__ == "__main__":
     print("Pass" if is_circular(LinkedList([1])) else "Fail")  # Fail
     print("Pass" if is_circular(small_loop) else "Fail")  # Pass
     print("Pass" if is_circular(LinkedList([])) else "Fail")  # Fail
+
+    ll_merged = merge(LinkedList([1, 3, 4]), LinkedList([2, 5, 6, 7]))
+    print(f"{ll_merged.to_list()}")
+    ll_merged = merge(LinkedList([-1, 6, 7]), LinkedList([1, 2, 3, 4]))
+    print(f"{ll_merged.to_list()}")
