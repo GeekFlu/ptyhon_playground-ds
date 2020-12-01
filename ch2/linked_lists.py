@@ -3,7 +3,12 @@ def merge(list1, list2):
     The arguments list1, list2 must be of type LinkedList.
     The merge() function must return an instance of LinkedList.
     """
-    temp = Node(-99)
+    if list1 is None:
+        return list2
+    if list2 is None:
+        return list1
+
+    temp = Node('temp')
     cur = temp
     l1 = list1.head
     l2 = list2.head
