@@ -8,26 +8,30 @@ def merge(list1, list2):
     if list2 is None:
         return list1
 
-    temp = Node('temp')
-    cur = temp
+    temp = LinkedList()
+    temp.append('temp')
     l1 = list1.head
     l2 = list2.head
     while l1 is not None and l2 is not None:
         if l1.value <= l2.value:
-            cur.next = l1
-            cur = l1
+            temp.append(l1.value)
             l1 = l1.next
         else:
-            cur.next = l2
-            cur = l2
+            temp.append(l2.value)
             l2 = l2.next
 
     if l1 is None:
-        cur.next = l2
+        while l2 is not None:
+            temp.append(l2.value)
+            l2 = l2.next
     if l2 is None:
-        cur.next = l1
+        while l1 is not None:
+            temp.append(l1.value)
+            l1 = l1.next
 
-    return LinkedList(None, temp.next)
+    temp.head = temp.head.next
+
+    return temp
 
 
 def create_linked_list_better(input_list_):
@@ -85,8 +89,8 @@ class Node:
 
 
 class LinkedList:
-    def __init__(self, init_list=None, head=None):
-        self.head = head
+    def __init__(self, init_list=None):
+        self.head = None
         if init_list:
             for value in init_list:
                 self.append(value)
@@ -313,7 +317,13 @@ if __name__ == "__main__":
     print("Pass" if is_circular(small_loop) else "Fail")  # Pass
     print("Pass" if is_circular(LinkedList([])) else "Fail")  # Fail
 
-    ll_merged = merge(LinkedList([1, 3, 4]), LinkedList([2, 5, 6, 7]))
+    list1 = LinkedList([1, 3, 4])
+    list2 = LinkedList([2, 5, 6, 7])
+    ll_merged = merge(list1, list2)
     print(f"{ll_merged.to_list()}")
     ll_merged = merge(LinkedList([-1, 6, 7]), LinkedList([1, 2, 3, 4]))
+    print(f"{ll_merged.to_list()}")
+    ll_merged = merge(None, LinkedList([1, 2, 3, 4]))
+    print(f"{ll_merged.to_list()}")
+    ll_merged = merge(LinkedList([-1, 6, 7]), None)
     print(f"{ll_merged.to_list()}")
