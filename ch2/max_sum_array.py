@@ -15,6 +15,8 @@ if __name__ == "__main__":
     assert max_subarray(arr) == solution
 
     arr = [-12, 15, -13, 14, -1, 2, 1, -5, 4]
+    # EYE check 408 956 0731
+
     solution = 18
     print(max_subarray(arr))
     assert max_subarray(arr) == solution
