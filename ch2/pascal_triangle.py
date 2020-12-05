@@ -90,7 +90,7 @@ if __name__ == "__main__":
     print(f"row(14) = {row_14}")
     assert row_14 == [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1]
 
-    row_24 = nth_row_pascal(24)
+    row_24 = nth_row_pascal(94)
     print(f"row(24) = {row_24}")
 
     row_124 = nth_row_pascal(3)
