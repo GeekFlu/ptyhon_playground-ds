@@ -35,3 +35,23 @@ Algorithm:
         2.1 We create a Temporal Head and apply 1) algorithm
             TH -> Temporal Head
 """
+
+
+class Node:
+    """LinkedListNode class to be used for this problem"""
+
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+def swap_nodes(head, left_index, right_index):
+    """
+    :param: head- head of input linked list
+    :param: `left_index` - indicates position (index) ONE
+    :param: `right_index` - indicates position (index) TWO
+    return: head of updated linked list with nodes swapped
+
+    Do not create a new linked list
+    """
+
