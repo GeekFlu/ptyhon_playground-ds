@@ -30,9 +30,8 @@ Algorithm:
         PR.next = CL
         CL = temp
 
-    2)
+    2) If head needs to ber swapped
 
-
-
-
+        2.1 We create a Temporal Head and apply 1) algorithm
+            TH -> Temporal Head
 """
