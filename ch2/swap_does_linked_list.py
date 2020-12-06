@@ -1,3 +1,6 @@
+from ch2.even_after_odd_nodes import print_linked_list
+from ch2.generate_numbers import generate_test_data
+
 """
 Given a linked list, swap the two nodes present at position i and j, assuming 0 <= i <= j. The positions are based on 0-based indexing.
 
@@ -55,3 +58,6 @@ def swap_nodes(head, left_index, right_index):
     Do not create a new linked list
     """
 
+
+if __name__ == "__main__":
+    pass
