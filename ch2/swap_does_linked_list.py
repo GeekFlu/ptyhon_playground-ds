@@ -68,16 +68,22 @@ def swap_nodes(head, left_index, right_index):
     if head is None:
         return None
 
-    if left_index > right_index:
+    if left_index >= right_index:
         raise ValueError("Left index is grater than Right index")
 
     previous_left = None
     current_left = None
     previous_right = None
     current_right = None
-    temporal_head = None
+    temporal_head = Node("Temporal head")
     current = head
     position = 0
+
+    if left_index == 0:
+        current_left = head
+        previous_left = temporal_head
+        temporal_head.next = current_left
+
     # we go to pl
     while current is not None:
         if position <= left_index - 1:
@@ -87,9 +93,14 @@ def swap_nodes(head, left_index, right_index):
         if position <= right_index - 1:
             previous_right = current
             current_right = current.next
+        else:
+            break
 
         current = current.next
         position += 1
+
+    if current_left == head:
+        temporal_head.next = current_left
 
     # Swapping
     previous_left.next = current_right
@@ -103,6 +114,10 @@ def swap_nodes(head, left_index, right_index):
         current_right.next = current_left.next
         previous_right.next = current_left
         current_left.next = temp
+
+    # if we use temporal head
+    if left_index == 0:
+        head = previous_left.next
 
     return head
 
@@ -119,4 +134,7 @@ if __name__ == "__main__":
     head_ = swap_nodes(head_, 3, 4)
     print_linked_list(head_)
 
-
+    head_ = create_linked_list(arr)
+    print_linked_list(head_)
+    head_ = swap_nodes(head_, 0, 1)
+    print_linked_list(head_)
