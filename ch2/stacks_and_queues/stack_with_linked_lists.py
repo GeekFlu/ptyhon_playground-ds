@@ -24,6 +24,8 @@ def evaluate_post_fix(input_list):
     """
     Evaluate the postfix expression to find the answer
 
+    PAY ATTENTION to the order of the popped elements, the first popped element is the second number in the operation
+
     Args:
        input_list(list): List containing the postfix expression
     Returns:
