@@ -90,6 +90,28 @@ def equation_checker(equation):
         return False
 
 
+def reverse_stack(stack):
+    """
+    Reverse a given input stack, if the stack was implemented using a linked list only by reversing the linked list
+    would be enough, but if the stack is implemented using an array this inversion method does not work.
+
+    Args:
+       stack(stack): Input stack to be reversed
+    Returns:
+       stack: Reversed Stack
+    """
+    r_stack = Stack()
+    if stack is None:
+        return None
+    if stack.is_empty():
+        return None
+
+    while not stack.is_empty():
+        r_stack.push(stack.pop())
+
+    return r_stack
+
+
 if __name__ == "__main__":
     s_ = Stack()
     s_.push(1)
@@ -115,3 +137,11 @@ if __name__ == "__main__":
     assert evaluate_post_fix(["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]) == 22
     assert evaluate_post_fix(["4", "13", "5", "/", "+"]) == 6
     assert evaluate_post_fix(["3", "1", "+", "4", "*"]) == 16
+
+    orig_stack = Stack()
+    orig_stack.push(1)
+    orig_stack.push(2)
+    orig_stack.push(3)
+    rev_stack = reverse_stack(orig_stack)
+    for _ in range(rev_stack.size()):
+        print(rev_stack.pop())
