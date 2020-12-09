@@ -112,6 +112,55 @@ def reverse_stack(stack):
     return r_stack
 
 
+"""
+Problem Statement
+
+Given an input string consisting of only { and }, figure out the minimum number of reversals required to make the brackets balanced.
+
+For example:
+
+    For input_string = "}}}}, the number of reversals required is 2.
+
+    For input_string = "}{}}, the number of reversals required is 1.
+
+If the brackets cannot be balanced, return -1 to indicate that it is not possible to balance them.
+
+An Efficient Solution can solve this problem in O(n) time. The idea is to first remove all balanced part of expression. 
+For example, convert “}{{}}{{{” to “}{{{” by removing highlighted part. If we take a closer look, we can notice that, 
+after removing balanced part, we always end up with an expression of the form }}…}{{…{, 
+an expression that contains 0 or more number of closing brackets followed by 0 or more numbers of opening brackets.
+
+How many minimum reversals are required for an expression of the form “}}..}{{..{” ?. 
+Let m be the total number of closing brackets and n be the number of opening brackets. We need ⌈m/2⌉ + ⌈n/2⌉ reversals. 
+For example }}}}{{ requires 2+1 reversals. 
+"""
+
+
+def minimum_bracket_reversals(input_string):
+    """
+    Calculate the number of reversals to fix the brackets
+
+    Args:
+       input_string(string): Strings to be used for bracket reversal calculation
+    Returns:
+       int: Number of bracket reversals needed
+    """
+    if len(input_string) % 2 != 0:
+        return -1
+    stack_brackets = Stack()
+    minimal_reverses = -1
+    for letter in input_string:
+        if letter == '{':
+            stack_brackets.push(letter)
+        elif letter == '}':
+            stack_brackets.pop()
+
+    if stack_brackets.size() > 0 and stack_brackets.size() % 2 == 0:
+        minimal_reverses = stack_brackets.size() // 2
+
+    return minimal_reverses
+
+
 if __name__ == "__main__":
     s_ = Stack()
     s_.push(1)
@@ -145,3 +194,7 @@ if __name__ == "__main__":
     rev_stack = reverse_stack(orig_stack)
     for _ in range(rev_stack.size()):
         print(rev_stack.pop())
+
+    assert minimum_bracket_reversals("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}") == 13
+    assert minimum_bracket_reversals("}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{") == 2
+    assert minimum_bracket_reversals("}}{}{}{}{}{}{}{}{}{}{}{}{}{}{}") == 1
