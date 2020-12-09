@@ -1,4 +1,5 @@
 from datastructures.StackLL import Stack
+import math
 
 """
 Reverse Polish Notation
@@ -145,20 +146,30 @@ def minimum_bracket_reversals(input_string):
     Returns:
        int: Number of bracket reversals needed
     """
+    if input_string is None:
+        return None
     if len(input_string) % 2 != 0:
         return -1
     stack_brackets = Stack()
-    minimal_reverses = -1
     for letter in input_string:
-        if letter == '{':
+        if letter == '}':
+            if stack_brackets.top() == '{':
+                stack_brackets.pop()
+            else:
+                stack_brackets.push(letter)
+        else:
             stack_brackets.push(letter)
-        elif letter == '}':
+
+    open_b_c = 0
+    close_b_c = 0
+    while not stack_brackets.is_empty():
+        if stack_brackets.top() == '{':
             stack_brackets.pop()
-
-    if stack_brackets.size() > 0 and stack_brackets.size() % 2 == 0:
-        minimal_reverses = stack_brackets.size() // 2
-
-    return minimal_reverses
+            open_b_c += 1
+        elif stack_brackets.top() == '}':
+            stack_brackets.pop()
+            close_b_c += 1
+    return math.ceil(open_b_c / 2) + math.ceil(close_b_c / 2)
 
 
 if __name__ == "__main__":
@@ -195,6 +206,8 @@ if __name__ == "__main__":
     for _ in range(rev_stack.size()):
         print(rev_stack.pop())
 
+    assert minimum_bracket_reversals("}}{{") == 2
+    assert minimum_bracket_reversals("}}}}") == 2
     assert minimum_bracket_reversals("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}") == 13
     assert minimum_bracket_reversals("}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{") == 2
     assert minimum_bracket_reversals("}}{}{}{}{}{}{}{}{}{}{}{}{}{}{}") == 1
