@@ -43,6 +43,7 @@ class Queue:
 
 
 if __name__ == "__main__":
+    lst = list()
     # Setup
     q = Queue()
     q.enqueue(1)
