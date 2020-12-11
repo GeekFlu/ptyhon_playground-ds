@@ -17,7 +17,47 @@ def reverse_string(input_str):
         return reversed_str + first_char
 
 
+"""
+This does not work on python
+JAVA CODE
+@Slf4j
+public class ReverseString {
+  public static String reverse(String inputStr) {
+    if (Objects.isNull(inputStr) || inputStr.length() == 0) {
+      return null;
+    } else {
+      int i = 0;
+      int j = inputStr.length() - 1;
+      char[] cad = inputStr.toCharArray();
+      while (i < j){
+        char temp = cad[i];
+        cad[i] = cad[j];
+        cad[j] = temp;
+        i++;
+        j--;
+      }
+      return new String(cad);
+    }
+  }
+"""
+def reverse_string_iterative(input_str):
+    if input_str is None or len(input_str) == 0:
+        return None
+    else:
+        final_string = ""
+        i = 0
+        j = len(input_str) - 1
+        while i < j:
+            temp = input_str[i]
+            input_str[i] = input_str[j]
+            input_str[j] = temp
+            i += 1
+            j -= 1
+        return input_str
+
+
 if __name__ == "__main__":
+    print("Pass" if ("siul" == reverse_string_iterative("luis")) else "Fail")
     print("Pass" if ("anitalavalatina" == reverse_string("anitalavalatina")) else "Fail")
     print("Pass" if ("siul" == reverse_string("luis")) else "Fail")
     print("Pass" if ("cba" == reverse_string("abc")) else "Fail")
