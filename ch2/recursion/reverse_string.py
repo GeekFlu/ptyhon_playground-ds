@@ -40,20 +40,23 @@ public class ReverseString {
     }
   }
 """
+
+
 def reverse_string_iterative(input_str):
     if input_str is None or len(input_str) == 0:
         return None
     else:
-        final_string = ""
+        p1_string = ""
+        p2_string = ""
         i = 0
         j = len(input_str) - 1
         while i < j:
             temp = input_str[i]
-            input_str[i] = input_str[j]
-            input_str[j] = temp
+            p1_string += input_str[j]
+            p2_string += temp
             i += 1
             j -= 1
-        return input_str
+        return p1_string + p2_string
 
 
 if __name__ == "__main__":
