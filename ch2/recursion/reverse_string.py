@@ -18,6 +18,7 @@ def reverse_string(input_str):
 
 
 if __name__ == "__main__":
+    print("Pass" if ("anitalavalatina" == reverse_string("anitalavalatina")) else "Fail")
     print("Pass" if ("siul" == reverse_string("luis")) else "Fail")
     print("Pass" if ("cba" == reverse_string("abc")) else "Fail")
     print("Pass" if ("" == reverse_string("")) else "Fail")
