@@ -35,3 +35,24 @@ class Stack:
             return n.value
         else:
             return None
+
+    def _from_linked_list_to_array(self):
+        """this method is for learning purposes we are converting the linked list to a list"""
+        arr = []
+        if self.size() > 0:
+            current = self.head
+            while current is not None:
+                arr.append(current.value)
+                current = current.next
+            return arr
+        else:
+            return arr
+
+    def __str__(self):
+        if self.size() > 0:
+            s = "\n<top of stack>\n_________________\n"
+            s += "\n_________________\n".join([str(item) for item in self._from_linked_list_to_array()])
+            s += "\n_________________\n<bottom of stack>"
+            return s
+        else:
+            return "<stack is empty>"

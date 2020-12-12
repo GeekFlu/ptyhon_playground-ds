@@ -16,6 +16,12 @@ class Node:
     def set_right_child(self, node):
         self.right = node
 
+    def get_left_child(self):
+        return self.left
+
+    def get_right_child(self):
+        return self.right
+
     def has_left_child(self):
         return self.left is not None
 
@@ -25,10 +31,13 @@ class Node:
     def __repr__(self):
         return f"Node({self.get_value()})"
 
+    def __str__(self):
+        return f"Node({self.get_value()})"
+
 
 class BinaryTree:
     def __init__(self, root):
-        self.root = root
+        self.root = Node(root)
 
     def get_root(self):
         return self.root
