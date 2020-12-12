@@ -1,8 +1,9 @@
 class Node:
     def __init__(self, value):
         self.value = value
-        self.left = None
-        self.right = None
+        self.left: Node = None
+        self.right: Node = None
+        self.is_visited = False
 
     def get_value(self):
         return self.value
@@ -27,6 +28,9 @@ class Node:
 
     def has_right_child(self):
         return self.right is not None
+
+    def set_visited(self):
+        self.is_visited = True
 
     def __repr__(self):
         return f"Node({self.get_value()})"
