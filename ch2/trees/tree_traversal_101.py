@@ -1,5 +1,5 @@
 from datastructures.StackLL import Stack
-from datastructures.Tree import BinaryTree, Node
+from datastructures.Tree import BinaryTree, TreeNode
 
 
 def print_data():
@@ -13,9 +13,9 @@ def print_data():
 if __name__ == "__main__":
     # create a tree and add some nodes
     tree = BinaryTree("apple")
-    tree.get_root().set_left_child(Node("banana"))
-    tree.get_root().set_right_child(Node("cherry"))
-    tree.get_root().get_left_child().set_left_child(Node("dates"))
+    tree.get_root().set_left_child(TreeNode("banana"))
+    tree.get_root().set_right_child(TreeNode("cherry"))
+    tree.get_root().get_left_child().set_left_child(TreeNode("dates"))
 
     visit_order = list()
     stack = Stack()

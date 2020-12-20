@@ -27,6 +27,12 @@ class Stack:
             return None
         return self.head.value
 
+    def peek(self):
+        if self.head is None:
+            return None
+        n = self.head
+        return n
+
     def pop(self):
         if self.head is not None:
             n = self.head

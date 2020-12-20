@@ -1,8 +1,8 @@
-class Node:
+class TreeNode:
     def __init__(self, value):
         self.value = value
-        self.left: Node = None
-        self.right: Node = None
+        self.left: TreeNode = None
+        self.right: TreeNode = None
         self.is_visited = False
 
     def get_value(self):
@@ -41,7 +41,7 @@ class Node:
 
 class BinaryTree:
     def __init__(self, root):
-        self.root = Node(root)
+        self.root = TreeNode(root)
 
     def get_root(self):
         return self.root
