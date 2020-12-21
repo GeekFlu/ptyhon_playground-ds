@@ -1,8 +1,9 @@
-class Node:
+class TreeNode:
     def __init__(self, value):
         self.value = value
-        self.left = None
-        self.right = None
+        self.left: TreeNode = None
+        self.right: TreeNode = None
+        self.is_visited = False
 
     def get_value(self):
         return self.value
@@ -16,19 +17,31 @@ class Node:
     def set_right_child(self, node):
         self.right = node
 
+    def get_left_child(self):
+        return self.left
+
+    def get_right_child(self):
+        return self.right
+
     def has_left_child(self):
         return self.left is not None
 
     def has_right_child(self):
         return self.right is not None
 
+    def set_visited(self):
+        self.is_visited = True
+
     def __repr__(self):
+        return f"Node({self.get_value()})"
+
+    def __str__(self):
         return f"Node({self.get_value()})"
 
 
 class BinaryTree:
     def __init__(self, root):
-        self.root = root
+        self.root = TreeNode(root)
 
     def get_root(self):
         return self.root
