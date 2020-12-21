@@ -1,4 +1,6 @@
+from ch2.trees.TreeUtils import get_sample_tree
 from datastructures.LinkedList import Node
+from datastructures.QueueLL import Queue
 from datastructures.Tree import BinaryTree, TreeNode
 from datastructures.StackLL import Stack
 
@@ -28,24 +30,42 @@ def preorder_traversal(tree_: BinaryTree):
     return order_visit
 
 
-def preorder_traversal_recursive():
-    pass
+def preorder_traversal_recursive(tree_: BinaryTree):
+    if tree_ is None or tree_.root is None:
+        return None
+
+    order_traversal = list()
+    preorder(tree_.get_root(), order_traversal)
+    return order_traversal
+
+
+def preorder(node_: TreeNode, order_list: list):
+    if node_ is None:
+        return
+    order_list.append(node_.get_value())
+    preorder(node_.get_left_child(), order_list)
+    preorder(node_.get_right_child(), order_list)
+
+
+def inorder(node_: TreeNode, order_list: list):
+    if node_ is None:
+        return
+    preorder(node_.get_left_child(), order_list)
+    order_list.append(node_.get_value())
+    preorder(node_.get_right_child(), order_list)
+
+
+def preorder(node_: TreeNode, order_list: list):
+    if node_ is None:
+        return
+    preorder(node_.get_left_child(), order_list)
+    preorder(node_.get_right_child(), order_list)
+    order_list.append(node_.get_value())
 
 
 if __name__ == "__main__":
-    tree = BinaryTree("apple")
-    tree.get_root().set_left_child(TreeNode("banana"))
-    tree.get_root().get_left_child().set_left_child(TreeNode("dates"))
-    tree.get_root().get_left_child().set_right_child(TreeNode("No"))
-    tree.get_root().get_left_child().get_left_child().set_left_child(TreeNode("Another"))
-
-    tree.get_root().set_right_child(TreeNode("cherry"))
-    tree.get_root().get_right_child().set_left_child(TreeNode("2"))
-    tree.get_root().get_right_child().set_right_child(TreeNode("3"))
-
-    tree.get_root().get_right_child().get_left_child().set_left_child(TreeNode("x"))
-    tree.get_root().get_right_child().get_left_child().set_right_child(TreeNode("y"))
-
-    tree.get_root().get_right_child().get_right_child().set_right_child(TreeNode("7"))
-
-    print(preorder_traversal(tree))
+    tree = get_sample_tree()
+    assert preorder_traversal(tree) == ['apple', 'banana', 'dates', 'Another', 'No', 'cherry', '2', 'x', 'y', '3', '7']
+    tree = get_sample_tree()
+    tracersal_recursiver = preorder_traversal_recursive(tree)
+    assert tracersal_recursiver == ['apple', 'banana', 'dates', 'Another', 'No', 'cherry', '2', 'x', 'y', '3', '7']
