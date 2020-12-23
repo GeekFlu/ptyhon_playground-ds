@@ -40,8 +40,33 @@ class TreeNode:
 
 
 class BinaryTree:
-    def __init__(self, root):
+    def __init__(self):
+        self.root = None
+
+    def set_root(self, root):
         self.root = TreeNode(root)
 
     def get_root(self):
         return self.root
+
+    def compare(self, node, new_node):
+        """
+        0 means new_node equals node
+        -1 means new node less than existing node
+        1 means new node greater than existing node
+        """
+        if new_node.get_value() == node.get_value():
+            return 0
+        elif new_node.get_value() < node.get_value():
+            return -1
+        else:
+            return 1
+
+    def insert_with_loop(self, new_value):
+        if self.root is None:
+            self.set_root(new_value)
+        else:
+
+
+    def insert_with_recursion(self, value):
+        pass
