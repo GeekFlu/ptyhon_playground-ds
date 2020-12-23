@@ -65,8 +65,6 @@ class BinaryTree:
     def insert_with_loop(self, new_value):
         if self.root is None:
             self.set_root(new_value)
-        else:
-
 
     def insert_with_recursion(self, value):
         pass
