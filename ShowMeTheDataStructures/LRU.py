@@ -97,11 +97,16 @@ class LRUCache(object):
 
     def __init__(self, capacity):
         # Initialize class variables
-        pass
+        self.capacity = capacity
+        self.queue = Queue(capacity)
+        self.h_map = dict()
 
     def get(self, key):
         # Retrieve item from provided key. Return -1 if nonexistent.
-        pass
+        node = self.h_map.get(key)
+        if node is not None:
+            pass
+        return None
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
@@ -110,6 +115,8 @@ class LRUCache(object):
 
 if __name__ == "__main__":
     reverse_ = True
+    d = dict()
+    print(f"prueba = {d.get(1)}")
     queue_ = Queue()
     print(f"{queue_.print()}")
     queue_.enqueue(1)
@@ -127,4 +134,21 @@ if __name__ == "__main__":
     print(f"{queue_.print()}")
     print(f"{queue_.print(reverse_)}")
     print(f"size of queue = {queue_.size()}")
+
+    our_cache = LRU_Cache(5)
+
+    our_cache.set(1, 1)
+    our_cache.set(2, 2)
+    our_cache.set(3, 3)
+    our_cache.set(4, 4)
+
+    our_cache.get(1)  # returns 1
+    our_cache.get(2)  # returns 2
+    our_cache.get(9)  # returns -1 because 9 is not present in the cache
+
+    our_cache.set(5, 5)
+    our_cache.set(6, 6)
+
+    our_cache.get(3)  # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
+
 
