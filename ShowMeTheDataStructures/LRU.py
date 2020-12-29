@@ -26,6 +26,9 @@ class Node(object):
     def get_value(self):
         return self.value
 
+    def __repr__(self):
+        return f"Node({self.value})"
+
 
 class Queue(object):
 
@@ -46,12 +49,35 @@ class Queue(object):
             self.tail = new_node
         self.elements += 1
 
+    def push(self, value):
+        new_node = Node(value)
+        val_discarded = None
+        if self.front is None:
+            self.front = new_node
+            self.tail = new_node
+        elif self.front == self.tail:
+            new_node.next = self.tail
+            self.tail.prev = new_node
+            self.front = new_node
+        else:
+            new_node.next = self.front
+            self.front.prev = new_node
+            self.front = new_node
+        if self.size() == self.cache_size:
+            val_discarded = self.tail.get_value()
+            self.tail = self.tail.prev
+            self.tail.next = None
+        else:
+            self.elements += 1
+        return new_node, val_discarded
+
     def dequeue(self):
         """removes data from the front of the queue"""
         if self.front is not None:
             val = self.front.value
             self.front = self.front.next
-            self.front.prev = None
+            if self.front is not None:
+                self.front.prev = None
             self.elements -= 1
             return val
         return None
@@ -103,21 +129,32 @@ class LRUCache(object):
 
     def get(self, key):
         # Retrieve item from provided key. Return -1 if nonexistent.
-        node = self.h_map.get(key)
+        node: Node = self.h_map.get(key)
         if node is not None:
-            pass
-        return None
+            return node.get_value()
+        return -1
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
-        pass
+        # value does not exist in LRU Cache
+        if self.queue.size() <= self.capacity and self.h_map.get(value) is None:
+            # we push it to the queue
+            node_inserted, value_discarded = self.queue.push(value)
+            self.h_map[value] = node_inserted
+            self.capacity += 1
+        else:
+            node_inserted, value_discarded = self.queue.push(value)
+            if self.h_map.get(value) is None:
+                self.h_map[value] = node_inserted
+                if value_discarded is not None:
+                    self.h_map.pop(value_discarded)
 
 
 if __name__ == "__main__":
     reverse_ = True
     d = dict()
     print(f"prueba = {d.get(1)}")
-    queue_ = Queue()
+    queue_ = Queue(3)
     print(f"{queue_.print()}")
     queue_.enqueue(1)
     queue_.enqueue(2)
@@ -134,21 +171,33 @@ if __name__ == "__main__":
     print(f"{queue_.print()}")
     print(f"{queue_.print(reverse_)}")
     print(f"size of queue = {queue_.size()}")
+    queue_.dequeue()
+    queue_.dequeue()
+    queue_.push(3)
+    queue_.dequeue()
+    queue_.dequeue()
+    print(f"{queue_.print()}")
 
-    our_cache = LRU_Cache(5)
+    queue_.push(4)
+    queue_.push(5)
+    queue_.push(6)
+    print(f"{queue_.print()}")
+    print(f"{queue_.print(True)}")
+    queue_.push(7)
+    print(f"{queue_.print()}")
+
+    our_cache = LRUCache(5)
 
     our_cache.set(1, 1)
     our_cache.set(2, 2)
     our_cache.set(3, 3)
     our_cache.set(4, 4)
 
-    our_cache.get(1)  # returns 1
-    our_cache.get(2)  # returns 2
-    our_cache.get(9)  # returns -1 because 9 is not present in the cache
+    print(our_cache.get(1))  # returns 1
+    print(our_cache.get(2))  # returns 2
+    print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
 
     our_cache.set(5, 5)
     our_cache.set(6, 6)
 
     our_cache.get(3)  # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
-
-
