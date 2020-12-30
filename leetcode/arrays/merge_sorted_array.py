@@ -1,5 +1,5 @@
 import time
-from ch2.generate_numbers import generate_test_data
+from utils.test_utils import generate_test_data
 """
 Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
 

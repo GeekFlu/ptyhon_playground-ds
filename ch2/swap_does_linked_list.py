@@ -1,5 +1,4 @@
 from ch2.even_after_odd_nodes import print_linked_list
-from ch2.generate_numbers import generate_test_data
 from ch2.even_after_odd_nodes import create_linked_list
 
 """
