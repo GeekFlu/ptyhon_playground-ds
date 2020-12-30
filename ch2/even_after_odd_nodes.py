@@ -1,4 +1,4 @@
-from ch2.generate_numbers import generate_test_data
+from utils.test_utils import generate_test_data
 """
 Problem Statement
 

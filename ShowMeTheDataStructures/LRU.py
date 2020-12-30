@@ -21,30 +21,54 @@ Reference Links:
 
 
 class Node(object):
-    def __init__(self, value):
+    """
+    This is the base class node for the doubly linked list
+    """
+    def __init__(self, value, key=None):
         self.next = None
         self.prev = None
         self.value = value
+        self.key = key
 
     def get_value(self):
+        """Get the value that holds the Node"""
         return self.value
 
     def set_value(self, new_val):
+        """If necessary overrides / updates the value of the current Node instance"""
         self.value = new_val
+
+    def get_key(self):
+        return self.key
 
     def __repr__(self):
         return f"Node({self.value})"
 
 
 class Queue(object):
+    """
+    This is a QUEUE implemented with a doubly linked list, we have a window size which will keep only those elements in the Queue
+     we have 2 methods to insert into the queue:
+        - enqueue inserts a value wrapped into a node @ the rear of the queue
+        - push inserts a value wrapped into a node @ the front of the queue
+    we have a
+        - dequeue method which removes the element @ the front of the queue
+        - size method which returns the element count
+        - is_empty which returns True if the queue does not have any element
+    """
 
-    def __init__(self, cache_size=3):
-        self.cache_size = cache_size
+    def __init__(self, window_size=3):
+        """
+        Creates a Queue with a size for keeping track on only those elements
+        :param window_size:
+        """
+        self.window_size = window_size
         self.front = None
         self.tail = None
         self.elements = 0
 
     def enqueue(self, value):
+        """Enqueues a value wrapped by Node class @ the rear of the Queue"""
         new_node = Node(value)
         if self.front is None:
             self.front = new_node
@@ -56,14 +80,14 @@ class Queue(object):
         self.elements += 1
 
     def insert_node_front(self, node: Node):
-        """This method will insert a Node at the front of the Queue"""
+        """This method will insert a NODE not a value at the front of the Queue"""
         node.next = self.front
         self.front.prev = node
         self.front = node
 
-    def push(self, value):
+    def push(self, key, value):
         """This method will insert a new node at the front, that's why I have selected push as method name"""
-        new_node = Node(value)
+        new_node = Node(value, key)
         val_discarded = None
         if self.front is None:
             self.front = new_node
@@ -76,8 +100,8 @@ class Queue(object):
             new_node.next = self.front
             self.front.prev = new_node
             self.front = new_node
-        if self.size() == self.cache_size:
-            val_discarded = self.tail.get_value()
+        if self.size() == self.window_size:
+            val_discarded = self.tail
             self.tail = self.tail.prev
             self.tail.next = None
         else:
@@ -134,8 +158,10 @@ class Queue(object):
 
 class LRUCache(object):
 
-    def __init__(self, capacity):
+    def __init__(self, capacity=3):
         # Initialize class variables
+        if capacity <= 0:
+            raise ValueError("Capacity must be grater than 0")
         self.capacity = capacity
         self.queue = Queue(capacity)
         self.h_map = dict()
@@ -169,14 +195,14 @@ class LRUCache(object):
         value does not exist in LRU Cache """
         if self.queue.size() < self.capacity and self.h_map.get(key) is None:
             # we push it to the queue
-            node_inserted, value_discarded = self.queue.push(value)
+            node_inserted, value_discarded = self.queue.push(key, value)
             self.h_map[key] = node_inserted
         else:
             if self.h_map.get(key) is None:
-                node_inserted, value_discarded = self.queue.push(value)
+                node_inserted, value_discarded = self.queue.push(key, value)
                 self.h_map[key] = node_inserted
                 if value_discarded is not None:
-                    self.h_map.pop(value_discarded)
+                    self.h_map.pop(value_discarded.get_key())
             else:
                 node_from_map = self.h_map.get(key)
                 node_from_map.set_value(value)
@@ -203,3 +229,5 @@ if __name__ == "__main__":
     our_cache.set(3, 33)
     assert our_cache.get(3) == 33  # returns 20 #UPDATED value
     print(f"{our_cache.queue.print()}")
+
+    assert LRUCache(0)
