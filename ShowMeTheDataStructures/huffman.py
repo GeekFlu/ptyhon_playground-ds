@@ -10,6 +10,9 @@ import sys
 
 
 class HuffmanNode(object):
+    """
+    Huffman Node, this is not a generic Node so It wont work for a generic case
+    """
 
     def __init__(self, letter='', frequency=0):
         self.left: HuffmanNode = None
@@ -131,17 +134,6 @@ class MinHeap(object):
         self.heap[with_idx] = temp
 
 
-class HuffmanTree(object):
-    def __init__(self):
-        self.root = None
-
-    def set_root(self, root):
-        self.root = TreeNode(root)
-
-    def get_root(self):
-        return self.root
-
-
 def huffman_encoding(data):
     """
     We will create the tree and encoded data
@@ -157,8 +149,8 @@ def huffman_encoding(data):
         element_1: HuffmanNode = priority_queue.poll()
         element_2: HuffmanNode = priority_queue.poll()
 
-        print(f"element = {element_1}")
-        print(f"element = {element_2}")
+        # print(f"element = {element_1}")
+        # print(f"element = {element_2}")
 
         new_frequency = 0
 
@@ -195,16 +187,47 @@ def huffman_encoding(data):
 
 
 def encode_huffman_tree(huffman_node: HuffmanNode, binary_code_holder, dictionary_words: dict):
+    """
+    Based on A huffman tree we will encode the data
+    :param huffman_node: The root of the tree
+    :param binary_code_holder:  This holder will be constructing the binary word until a leaf is reached
+    :param dictionary_words: Dictionary to hold the final words in binary
+    :return:
+    """
     if huffman_node is not None:
         huffman_node.code = binary_code_holder
-        print(f"Huffman Node Code: {huffman_node.code} {huffman_node.frequency} {huffman_node.letter}")
+        # print(f"Huffman Node Code: {huffman_node.code} {huffman_node.frequency} {huffman_node.letter}")
         dictionary_words[huffman_node.letter] = dictionary_words.get(huffman_node.letter, "") + huffman_node.code
         encode_huffman_tree(huffman_node.left, binary_code_holder + "0", dictionary_words)
         encode_huffman_tree(huffman_node.right, binary_code_holder + "1", dictionary_words)
 
 
-def huffman_decoding(data, tree):
-    pass
+def huffman_decoding(encoded_word, root_huffman_node):
+    """
+        Steps to decode an encoded huffman word based on the huffman tree
+        1. Declare a blank decoded string
+        2. Pick a bit from the encoded data, traversing from left to right.
+        3. Start traversing the Huffman tree from the root.
+            If the current bit of encoded data is 0, move to the left child, else move to the right child of the tree if the current bit is 1.
+            If a leaf node is encountered, append the (alphabetical) character of the leaf node to the decoded string.
+    :param encoded_word: binary word
+    :param root_huffman_node: root of the huffman tree
+    :return: decoded word
+    """
+    decoded_str = ""
+    current: HuffmanNode = root_huffman_node
+    for bit_char in encoded_word:
+        if bit_char == "0" and current.left is not None:
+            current = current.left
+        elif current.right is not None:
+            current = current.right
+
+        if current.left is None and current.right is None:
+            decoded_str += current.letter
+            current = root_huffman_node
+
+    # print(f"decoded data = {decoded_str}")
+    return decoded_str
 
 
 def get_frequency(sentence):
@@ -240,7 +263,7 @@ if __name__ == "__main__":
     print(f"The size of the encoded data is: {sys.getsizeof(int(encoded_data, base=2))}")
     print(f"The content of the encoded data is: {encoded_data}")
 
-# decoded_data = huffman_decoding(encoded_data, tree)
-#
-# print("The size of the decoded data is: {}".format(sys.getsizeof(decoded_data)))
-# print("The content of the encoded data is: {}".format(decoded_data))
+    decoded_data = huffman_decoding(encoded_data, tree)
+
+    print("The size of the decoded data is: {}".format(sys.getsizeof(decoded_data)))
+    print("The content of the encoded data is: {}".format(decoded_data))
