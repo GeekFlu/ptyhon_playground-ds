@@ -1,3 +1,11 @@
+"""
+Luis E Gonzalez
+
+Links reviewed:
+https://www.youtube.com/watch?v=t0Cq6tVNRBA
+https://www.youtube.com/watch?v=HqPJF2L5h9U
+http://homepages.math.uic.edu/~jan/mcs360/heaps_and_trees.pdf
+"""
 import sys
 
 
@@ -38,7 +46,7 @@ class MinHeap(object):
             return None
         return self.heap[0]
 
-    def extract_min(self):
+    def poll(self):
         """Always removes the minimum element from Min Heap.
            Time Complexity of this Operation is O(logn) as this operation needs
            to maintain the heap property after removing root."""
@@ -146,8 +154,8 @@ def huffman_encoding(data):
     # Pop-out two nodes with the minimum frequency from the priority queue created in the above step.
     while priority_queue.size() > 0:
 
-        element_1: HuffmanNode = priority_queue.extract_min()
-        element_2: HuffmanNode = priority_queue.extract_min()
+        element_1: HuffmanNode = priority_queue.poll()
+        element_2: HuffmanNode = priority_queue.poll()
 
         print(f"element = {element_1}")
         print(f"element = {element_2}")
