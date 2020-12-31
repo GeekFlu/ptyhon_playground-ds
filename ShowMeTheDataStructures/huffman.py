@@ -22,14 +22,14 @@ class MinHeap(object):
     MIN Heap class
     """
 
-    def __init__(self):
-        self.heap = []
-        self.last_element_idx = None
+    def __init__(self, initial_capacity=10):
+        self.heap = [None for i in range(initial_capacity)]
+        self.elements = 0
 
     def size(self):
         if self.heap is None:
             return 0
-        return len(self.heap)
+        return self.elements
 
     def peek(self):
         """It returns the root element of Min Heap. Time Complexity of this operation is O(1)"""
@@ -47,33 +47,48 @@ class MinHeap(object):
         if self.heap is None or len(self.heap) <= 0:
             return None
         root_node = self.heap[0]
-        if self.last_element_idx is None:
-            self.last_element_idx = len(self.heap) - 1
-        elif self.last_element_idx >= 0:
+        is_there_elements = self.elements > 0
+        if is_there_elements:
             keep_going_down = True
-            self._swap(0, self.last_element_idx)
-            # we update last_element index
-            self.last_element_idx -= 1
+            self._swap(0, self.elements - 1)
+            self.heap[self.elements - 1] = None
             # we heapify to min heap
             current_idx = 0
+            self.elements -= 1
             while keep_going_down:
                 left_child_idx = (2 * current_idx) + 1
-                left_child = self.heap[left_child_idx]
+                if left_child_idx <= self.elements - 1:
+                    left_child = self.heap[left_child_idx]
+                else:
+                    left_child = None
 
                 right_child_idx = (2 * current_idx) + 2
-                right_child = self.heap[right_child_idx]
-                # going left down
-                if left_child.frequency < right_child.frequency:
+                if right_child_idx <= self.elements - 1:
+                    right_child = self.heap[right_child_idx]
+                else:
+                    right_child = None
+
+                # going left down if both are equal
+                if self.elements == 2:
                     if self.heap[current_idx].frequency > left_child.frequency:
                         self._swap(left_child_idx, current_idx)
                         current_idx = left_child_idx
-                elif right_child.frequency < left_child.frequency:
+                    keep_going_down = False
+                elif left_child is not None and right_child is not None and left_child.frequency <= right_child.frequency:
+                    if self.heap[current_idx].frequency > left_child.frequency:
+                        self._swap(left_child_idx, current_idx)
+                        current_idx = left_child_idx
+                    else:
+                        keep_going_down = False
+                elif left_child is not None and right_child is not None and right_child.frequency < left_child.frequency:
                     if self.heap[current_idx].frequency > right_child.frequency:
                         self._swap(right_child_idx, current_idx)
                         current_idx = right_child_idx
+                    else:
+                        keep_going_down = False
                 else:
                     keep_going_down = False
-            return root_node
+        return root_node
 
     def insert(self, huffman_node: HuffmanNode):
         """
@@ -86,11 +101,11 @@ class MinHeap(object):
             to get right child = 2 * index + 1
             to get parent = index / 2 we take the integer part in case of decimal
            """
-        if len(self.heap) <= 0:
-            self.heap.append(huffman_node)
+        if self.size() <= 0:
+            self.heap[0] = huffman_node
         else:
-            self.heap.append(huffman_node)
-            index_inserted = len(self.heap) - 1
+            self.heap[self.elements] = huffman_node
+            index_inserted = self.elements
             keep_climbing_up = True
             while keep_climbing_up:
                 parent_idx = (index_inserted - 1) // 2
@@ -99,14 +114,12 @@ class MinHeap(object):
                     index_inserted = parent_idx
                 else:
                     keep_climbing_up = False
+        self.elements += 1
 
     def _swap(self, from_idx, with_idx):
         temp = self.heap[from_idx]
         self.heap[from_idx] = self.heap[with_idx]
         self.heap[with_idx] = temp
-
-    def delete(self):
-        """Deleting a node also takes O(logn) time."""
 
 
 class HuffmanTree(object):
@@ -121,7 +134,50 @@ class HuffmanTree(object):
 
 
 def huffman_encoding(data):
-    pass
+    """
+    We will create the tree and encoded data
+    :param data:
+    :return:
+    """
+    codes = get_frequency(data)
+    priority_queue = create_priority_queue(codes)
+    huffman_tree = None
+    # Pop-out two nodes with the minimum frequency from the priority queue created in the above step.
+    while priority_queue.size() > 0:
+
+        element_1: HuffmanNode = priority_queue.extract_min()
+        element_2: HuffmanNode = priority_queue.extract_min()
+
+        print(f"element = {element_1}")
+        print(f"element = {element_2}")
+
+        new_frequency = 0
+
+        if element_1 is not None:
+            new_frequency += element_1.frequency
+        if element_2 is not None:
+            new_frequency += element_2.frequency
+
+        huffman_tree = HuffmanNode("INTERNAL_NODE", new_frequency)
+
+        if element_1 is not None and element_2 is None:
+            huffman_tree.left = element_1
+        elif element_1 is None and element_2 is not None:
+            huffman_tree.left = element_2
+        elif element_1.frequency < element_2.frequency:
+            huffman_tree.left = element_1
+            huffman_tree.right = element_2
+        else:
+            huffman_tree.left = element_2
+            huffman_tree.right = element_1
+        # we will stop when zero elements @ priority queue
+        if priority_queue.size() > 0:
+            priority_queue.insert(huffman_tree)
+
+    # lets encode the string
+
+
+    return "None", huffman_tree
 
 
 def huffman_decoding(data, tree):
@@ -144,24 +200,22 @@ def create_priority_queue(frequency_table: dict):
     """We will create a priority queue using a min heap"""
     if frequency_table is None or len(frequency_table.keys()) <= 0:
         return None
-    pr_queue = MinHeap()
+    pr_queue = MinHeap(len(frequency_table.keys()))
     for letter, frequency in frequency_table.items():
         new_node = HuffmanNode(letter, frequency)
         pr_queue.insert(new_node)
-
     return pr_queue
 
 
 if __name__ == "__main__":
     # Step 1 determine frequency og each letter
-    a_great_sentence = "The bird is the word"
+    a_great_sentence = "AAAAAAABBBCCCCCCCDDEEEEEE"
 
     print(f"The size of the data is: {sys.getsizeof(a_great_sentence)}")
     print(f"The content of the data is: {a_great_sentence}")
-    codes = get_frequency(a_great_sentence)
-    priority_queue = create_priority_queue(codes)
+
     print("")
-    # encoded_data, tree = huffman_encoding(a_great_sentence)
+    encoded_data, tree = huffman_encoding(a_great_sentence)
     #
     # print(f"The size of the encoded data is: {sys.getsizeof(int(encoded_data, base=2))}")
     # print(f"The content of the encoded data is: {encoded_data}")
