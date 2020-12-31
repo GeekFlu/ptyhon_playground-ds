@@ -24,6 +24,7 @@ class MinHeap(object):
 
     def __init__(self):
         self.heap = []
+        self.last_element_idx = None
 
     def size(self):
         if self.heap is None:
@@ -40,6 +41,39 @@ class MinHeap(object):
         """Always removes the minimum element from Min Heap.
            Time Complexity of this Operation is O(logn) as this operation needs
            to maintain the heap property after removing root."""
+        # we remove element 0 from heap, since we are having in place all the elements en memory, we are going to swap root with last and keep track of the last element
+        # to keep min heap we have to take the last element and move it from last to position 0
+        # then we start comparing if least child is less than the root
+        if self.heap is None or len(self.heap) <= 0:
+            return None
+        root_node = self.heap[0]
+        if self.last_element_idx is None:
+            self.last_element_idx = len(self.heap) - 1
+        elif self.last_element_idx >= 0:
+            keep_going_down = True
+            self._swap(0, self.last_element_idx)
+            # we update last_element index
+            self.last_element_idx -= 1
+            # we heapify to min heap
+            current_idx = 0
+            while keep_going_down:
+                left_child_idx = (2 * current_idx) + 1
+                left_child = self.heap[left_child_idx]
+
+                right_child_idx = (2 * current_idx) + 2
+                right_child = self.heap[right_child_idx]
+                # going left down
+                if left_child.frequency < right_child.frequency:
+                    if self.heap[current_idx].frequency > left_child.frequency:
+                        self._swap(left_child_idx, current_idx)
+                        current_idx = left_child_idx
+                elif right_child.frequency < left_child.frequency:
+                    if self.heap[current_idx].frequency > right_child.frequency:
+                        self._swap(right_child_idx, current_idx)
+                        current_idx = right_child_idx
+                else:
+                    keep_going_down = False
+            return root_node
 
     def insert(self, huffman_node: HuffmanNode):
         """
