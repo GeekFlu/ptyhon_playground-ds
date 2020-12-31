@@ -7,8 +7,8 @@ class HuffmanNode(object):
         self.left: HuffmanNode = None
         self.right: HuffmanNode = None
         self.is_visited = False
-        self.letter = letter
-        self.frequency = frequency
+        self.letter: str = letter
+        self.frequency: int = frequency
 
     def __repr__(self):
         return f"HuffmanNode(letter={self.letter}, frequency={self.frequency})"
@@ -25,14 +25,21 @@ class MinHeap(object):
     def __init__(self):
         self.heap = []
 
-    def get_min(self):
-        """It returns the root element of Min Heap. Time Complexity of this operation is O(1)."""
-        pass
+    def size(self):
+        if self.heap is None:
+            return 0
+        return len(self.heap)
+
+    def peek(self):
+        """It returns the root element of Min Heap. Time Complexity of this operation is O(1)"""
+        if self.heap is None or len(self.heap) <= 0:
+            return None
+        return self.heap[0]
 
     def extract_min(self):
-        """Removes the minimum element from Min Heap.
+        """Always removes the minimum element from Min Heap.
            Time Complexity of this Operation is O(logn) as this operation needs
-           to maintain the heap property (by calling heapify()) after removing root."""
+           to maintain the heap property after removing root."""
 
     def insert(self, huffman_node: HuffmanNode):
         """
@@ -53,7 +60,7 @@ class MinHeap(object):
             keep_climbing_up = True
             while keep_climbing_up:
                 parent_idx = (index_inserted - 1) // 2
-                if self.heap[index_inserted].frequency < self.heap[parent_idx].frequency:
+                if parent_idx >= 0 and self.heap[index_inserted].frequency < self.heap[parent_idx].frequency:
                     self._swap(index_inserted, parent_idx)
                     index_inserted = parent_idx
                 else:
