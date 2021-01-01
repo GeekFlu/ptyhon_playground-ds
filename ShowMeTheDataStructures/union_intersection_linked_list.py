@@ -140,21 +140,35 @@ class LinkedList:
 
     def __str__(self):
         cur_head = self.head
+        if cur_head is None:
+            return "<EMPTY LINKED LIST>"
         out_string = ""
         while cur_head:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
         return out_string
 
-    def remove_duplicates(self):
+    def get_unique_element_list(self):
+        """This method returns a linked list with unique elements of the original list"""
         if self.head is None:
-            return
+            return None
+        d = dict()
+        current = self.head
+        while current is not None:
+            if d.get(current.value) is None:
+                d[current.value] = 1
+            else:
+                d[current.value] += 1
+            current = current.next
+        l_simplified = LinkedList()
+        for key, value in d.items():
+            l_simplified.append(value)
+        return l_simplified
 
 
 def union(llist_1, llist_2):
     """
-    Union of two linked list, searching and adding if not in union list
-    The time complexity for this is not
+    Union of two linked list, we are going to use a HashMap to store the occurrences
     :param llist_1: Linked List1
     :param llist_2: Linked list2
     :return: union of 2 linked list
@@ -162,31 +176,33 @@ def union(llist_1, llist_2):
     if llist_1 is None and llist_2 is None:
         return None
     elif llist_1 is None:
-        llist_2.remove_duplicates()
-        return llist_2
+        return llist_2.get_unique_element_list()
     elif llist_2 is None:
-        llist_1.remove_duplicates()
-        return llist_1
+        return llist_1.get_unique_element_list()
 
     # we will iterate through the l1 and re link each node to the union list
     union_list = LinkedList()
-    current1 = llist_1.head
-    current2 = llist_2.head
-    while current1 is not None:
-        if union_list.search(current1.value) is None:
-            union_list.append(current1.value)
-        current1 = current1.next
-
-    while current2 is not None:
-        if union_list.search(current2.value) is None:
-            union_list.append(current2.value)
-        current2 = current2.next
+    map_ = dict()
+    update_map_elements(llist_1, map_)
+    update_map_elements(llist_2, map_)
+    for key, value in map_.items():
+        union_list.append(key)
 
     return union_list
 
 
+def update_map_elements(linked_list, dictionary):
+    current = linked_list.head
+    while current is not None:
+        if dictionary.get(current.value) is None:
+            dictionary[current.value] = 1
+        else:
+            dictionary[current.value] += 1
+        current = current.next
+
+
 def intersection(llist_1, llist_2):
-    """intersection if value is present in both list we add it to the intersection list"""
+    """We are going to use a hash map to keep track of the frequency of the elements only frequencies >= 2 will be added to ths final intersection list"""
     if llist_1 is None and llist_2 is None:
         return None
     elif llist_1 is None:
@@ -194,18 +210,20 @@ def intersection(llist_1, llist_2):
     elif llist_2 is None:
         return llist_1
     intersection_list = LinkedList()
-    current1 = llist_1.head
-    current2 = llist_2.head
+    map_ = dict()
     if llist_1.size() < llist_2.size():
-        while current1 is not None:
-            if llist_2.search(current1.value) is not None:
-                intersection_list.append(current1.value)
-            current1 = current1.next
+        update_map_elements(llist_1, map_)
+        current = llist_2.head
     else:
-        while current2 is not None:
-            if llist_1.search(current2.value) is not None:
-                intersection_list.append(current2.value)
-            current2 = current2.next
+        update_map_elements(llist_2, map_)
+        current = llist_1.head
+
+    while current is not None:
+        if map_.get(current.value) is not None:
+            intersection_list.append(current.value)
+            map_.pop(current.value)
+        current = current.next
+
     return intersection_list
 
 
@@ -213,7 +231,8 @@ if __name__ == "__main__":
     # Test case 1
     l1 = LinkedList([3, 6, 9, 9, 1, 20])
     l2 = LinkedList([9, 2, 3, 4, 5])
-    union(l1, l2)
+    print(union(l1, l2))
+    print(intersection(l1, l2))
     linked_list_1 = LinkedList()
     linked_list_2 = LinkedList()
 
@@ -228,6 +247,7 @@ if __name__ == "__main__":
 
     print(union(linked_list_1, linked_list_2))
     print(intersection(linked_list_1, linked_list_2))
+    print(intersection(linked_list_2, linked_list_1))
 
     # Test case 2
 
