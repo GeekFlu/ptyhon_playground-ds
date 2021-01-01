@@ -214,19 +214,16 @@ def intersection(llist_1, llist_2):
     if llist_1.size() < llist_2.size():
         update_map_elements(llist_1, map_)
         current = llist_2.head
-        while current is not None:
-            if map_.get(current.value) is not None:
-                intersection_list.append(current.value)
-                map_.pop(current.value)
-            current = current.next
     else:
         update_map_elements(llist_2, map_)
         current = llist_1.head
-        while current is not None:
-            if map_.get(current.value) is not None:
-                intersection_list.append(current.value)
-                map_.pop(current.value)
-            current = current.next
+
+    while current is not None:
+        if map_.get(current.value) is not None:
+            intersection_list.append(current.value)
+            map_.pop(current.value)
+        current = current.next
+
     return intersection_list
 
 
