@@ -24,18 +24,19 @@ class Block(object):
         self.timestamp = timestamp
         self.data = data
         self.previous_hash = previous_hash
-        self.hash = self.calc_hash(self.data)
+        self.hash = self.calc_hash()
         self.next = None
         self.prev = None
 
-    def calc_hash(self, data_):
-        sha = hashlib.sha256()
-        hash_str = data_.encode('utf-8')
-        sha.update(hash_str)
-        return sha.hexdigest()
+    def calc_hash(self):
+        sha_key = hashlib.sha256()
+        sha_key.update(str(self.data).encode('utf-8'))
+        sha_key.update(str(self.timestamp).encode('utf-8'))
+        sha_key.update(str(self.previous_hash).encode('utf-8'))
+        return sha_key.hexdigest()
 
     def __str__(self):
-        return f"[hash = {self.hash[0:5]}..., prev_hash = {self.previous_hash[0:5]}..., data = {self.data}, timestamp = {self.timestamp}]"
+        return f"\n[hash = {self.hash}, prev_hash = {self.previous_hash}, data = {self.data}, timestamp = {self.timestamp}]"
 
 
 class Chain(object):
@@ -47,14 +48,14 @@ class Chain(object):
 
     def add_chain_link(self, data):
         if self.head is None:
-            initial_chain_link = Block(datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%Z"),
-                                       data, "INITIAL_CHAIN_HASH")
+            initial_chain_link = Block(datetime.datetime.utcnow(),
+                                       data, "genesis block")
             self.head = initial_chain_link
             self.tail = initial_chain_link
             self.num_elements += 1
             return
 
-        n_chain_block = Block(datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f%Z"), data,
+        n_chain_block = Block(datetime.datetime.utcnow(), data,
                               self.tail.hash)
         self.tail.next = n_chain_block
         self.tail = n_chain_block
