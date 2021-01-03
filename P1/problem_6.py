@@ -129,21 +129,18 @@ class LinkedList:
         """This method returns a linked list with unique elements of the original list"""
         if self.head is None:
             return None
-        d = dict()
+        set_ = set()
         current = self.head
         while current is not None:
-            if d.get(current.value) is None:
-                d[current.value] = 1
-            else:
-                d[current.value] += 1
+            set_.add(current.value)
             current = current.next
         l_simplified = LinkedList()
-        for key, value in d.items():
+        for value in set_:
             l_simplified.append(value)
         return l_simplified
 
 
-def union(llist_1, llist_2):
+def union(llist_1: LinkedList, llist_2: LinkedList):
     """
     Union of two linked list, we are going to use a HashMap to store the occurrences
     :param llist_1: Linked List1
@@ -152,9 +149,9 @@ def union(llist_1, llist_2):
     """
     if llist_1 is None and llist_2 is None:
         return None
-    elif llist_1 is None:
+    elif llist_1 is None or llist_1.size() <= 0:
         return llist_2.get_unique_element_list()
-    elif llist_2 is None:
+    elif llist_2 is None or llist_2.size() <= 0:
         return llist_1.get_unique_element_list()
 
     # we will iterate through the l1 and re link each node to the union list
@@ -185,10 +182,10 @@ def intersection(llist_1, llist_2):
     """We are going to use a hash map to keep track of the frequency of the elements only frequencies >= 2 will be added to ths final intersection list"""
     if llist_1 is None and llist_2 is None:
         return None
-    elif llist_1 is None:
-        return llist_2
-    elif llist_2 is None:
-        return llist_1
+    elif llist_1 is None or llist_1.size() <= 0:
+        return None
+    elif llist_2 is None or llist_2.size() <= 0:
+        return None
     intersection_list = LinkedList()
     map_ = dict()
     if llist_1.size() < llist_2.size():

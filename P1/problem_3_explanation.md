@@ -18,7 +18,14 @@
 - For huffman_encoding we are expecting a time complexity of O(n Log n), since we are processing n nodes, but we are using poll and insert Min Heap's methods until our priority
   queue is empty O(n * log n)
 - For huffman_decoding we are expecting a time complexity of O(n Log n), since we are processing n nodes, and traversing a tree in log n time
-  
+
+## Space Complexity
+- The space complexity required for huffman is
+  - The priority queue or min heap we require O(n)
+  - The huffman tree required O(m)
+  - The dictionary containing the paths required O(k)
+  - The final Space is = O(n) + O(m) + O(k) = O(n + m + k) which is linear
+
 ### Reference Links
 - [Huffman and tress explanation](http://homepages.math.uic.edu/~jan/mcs360/heaps_and_trees.pdf)
 - [Heap - Heap Sort - Heapify - Priority Queues](https://www.youtube.com/watch?v=HqPJF2L5h9U)
