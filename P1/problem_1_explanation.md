@@ -12,6 +12,11 @@ All operations are executed in constant time O(1)
 - We are using front reference to insert at the beginning
 - I case of a hit we get the reference node the dictionary and push it again to the front of the queue
 - If some element is discarded because is out of we are using the rear reference to remove it from the list
+## Space Complexity
+- The space complexity required is;
+   - The Queue required O(m) space where m is the capacity / frames requested
+   - The dictionary required O(m) space where m is the capacity / frames required
+   - The space complexity is O(m) + O(m) = O(m + m) linear
 
 ## Reference Links
 - [LRU Implementation](https://www.geeksforgeeks.org/lru-cache-implementation/)

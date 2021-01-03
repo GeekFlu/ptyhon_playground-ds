@@ -13,6 +13,8 @@
 we assign it using the tail reference of the link list
 ## Time complexity
 - Time complexity for add a block is in constant time O(1)
+## Space Complexity
+- The space complexity required is O(n) where n is a block with all the data
 ### Reference Links
 - [Block Chain Rest API](https://www.activestate.com/blog/how-to-build-a-blockchain-in-python/)
 - [Blockchain Wiki](https://en.wikipedia.org/wiki/Blockchain)

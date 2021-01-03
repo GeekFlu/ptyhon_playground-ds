@@ -18,5 +18,10 @@
     2. Will iterate over this list and if the element is in the other list will add it to the dictionary
     3. Will create an intersection list based on the dictionary
     4. This method runs in linear time O(n)
+## Space complexity
+- The space complexity required for union is:
+  - we are creating extra space for a set O(n) plus linked list O(n) = O(2n) = O(n)
+- - The space complexity required for intersection is:
+  - we are creating extra space for a dictionary O(m) plus linked list O(n) = O(m) + O(n) = O(m + n)
 ### Reference Links
 - [Union, intersection reference](https://www.geeksforgeeks.org/union-intersection-two-linked-lists-set-3-hashing/)
