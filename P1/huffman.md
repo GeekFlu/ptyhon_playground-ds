@@ -36,7 +36,6 @@ A Huffman tree is built in a bottom-up approach.
 |E  |6  |
 
 2. Each row in the table above can be represented as a node having a character, frequency, left child, and right child. In the next step, we will repeatedly require to pop-out the node having the lowest frequency. Therefore, build and sort a list of nodes in the order lowest to highest frequencies. Remember that a list preserves the order of elements in which they are appended. We would need our list to work as a priority queue, where a node that has lower frequency should have a higher priority to be popped-out. The following snapshot will help you visualize the example considered above:
-![Huffman](huffman.png)
 ```commandline
 Can you come up with other data structures to create a priority queue? How about using a min-heap instead of a list? You are free to choose from anyone.
 ```
